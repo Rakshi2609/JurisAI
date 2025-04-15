@@ -7,7 +7,7 @@
     min-height: 100vh;
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeInUp 1s ease-in-out forwards;
+    animation: fadeInUp 1.5s ease-out forwards;
 }
 
 /* Fade-in and slide-up animation */
@@ -26,12 +26,12 @@
 .contact-container {
     max-width: 1100px;
     width: 90%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     padding: 40px;
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    animation: fadeIn 0.8s ease-in-out;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
+    animation: fadeIn 1.2s ease-out;
 }
 
 /* Title */
@@ -40,7 +40,7 @@
     font-weight: bold;
     color: white;
     margin-bottom: 15px;
-    animation: slideInLeft 1s ease-in-out;
+    animation: slideInLeft 1.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @keyframes slideInLeft {
@@ -66,7 +66,7 @@
     font-size: 18px;
     color: #ccc;
     margin-bottom: 30px;
-    animation: fadeIn 1s ease-in-out;
+    animation: fadeIn 1.5s ease-out;
 }
 
 /* Contact Info */
@@ -75,18 +75,19 @@
     flex-wrap: wrap;
     justify-content: space-around;
     margin-bottom: 40px;
-    animation: fadeInUp 1s ease-in-out;
+    animation: fadeInUp 1.5s ease-out;
 }
 
 .contact-box {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     padding: 20px;
     border-radius: 10px;
     color: white;
     text-align: center;
     width: 250px;
-    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
-    animation: zoomIn 1s ease-in-out;
+    transition: transform 0.4s ease, background 0.4s ease;
+    animation: zoomIn 1.4s ease-out;
+    white-space: nowrap;
 }
 
 @keyframes zoomIn {
@@ -109,7 +110,7 @@
 /* Contact Form */
 .contact-form {
     margin-bottom: 40px;
-    animation: fadeIn 1s ease-in-out;
+    animation: fadeIn 1.5s ease-out;
 }
 
 .contact-form h2 {
@@ -132,10 +133,17 @@
     margin: 10px 0;
     border: none;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     color: white;
     font-size: 16px;
-    animation: fadeInUp 0.8s ease-in-out;
+    transition: background 0.3s ease, transform 0.3s ease;
+    animation: fadeInUp 1.3s ease-out;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    background: rgba(255, 255, 255, 0.12);
+    outline: none;
 }
 
 .contact-form button {
@@ -146,22 +154,21 @@
     border-radius: 20px;
     cursor: pointer;
     font-size: 18px;
-    transition: 0.3s ease-in-out;
-    animation: fadeInUp 2s ease-in-out;
+    transition: all 0.4s ease;
+    animation: fadeInUp 2s ease-out;
 }
 
 .contact-form button:hover {
-    opacity: 0.8;
+    opacity: 0.9;
     transform: scale(1.05);
 }
 
 /* Social Media Section */
 .social-media {
     margin-bottom: 40px;
-    animation: fadeInUp 1s ease-in-out;
+    animation: fadeInUp 1.5s ease-out;
 }
 
-/* Social Icons */
 .social-icons {
     display: flex;
     justify-content: center;
@@ -177,11 +184,10 @@
     text-decoration: none;
     color: white;
     font-weight: bold;
-    transition: 0.3s ease-in-out;
-    animation: fadeIn 1s ease-in-out;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    animation: fadeIn 1.5s ease-out;
 }
 
-/* Hover Effect */
 .social-icon:hover {
     transform: scale(1.1);
     filter: brightness(1.2);
@@ -191,15 +197,15 @@
 .faq-section {
     text-align: left;
     margin-top: 40px;
-    animation: fadeInUp 1s ease-in-out;
+    animation: fadeInUp 1.5s ease-out;
 }
 
 .faq {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 10px;
-    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: all 0.4s ease;
 }
 
 .faq:hover {
@@ -207,17 +213,15 @@
     transform: scale(1.02);
 }
 
-/* FAQ Question Styling */
 .faq h3 {
     font-size: 20px;
     background: linear-gradient(90deg, #ff6b00, #6b5bff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 10px;
-    transition: color 0.3s ease-in-out;
+    transition: color 0.4s ease;
 }
 
-/* Hover Effect for FAQ Questions */
 .faq:hover h3 {
     color: #ffffff;
     -webkit-text-fill-color: white;
