@@ -1,91 +1,75 @@
 import React from 'react';
-import './Landing.css'
+import './Landing.css';
 import { Link } from 'react-router-dom';
 
-
-
-//import hackerImg from "../hacker2.jpeg";
 const Landing = () => {
   return (
     <>
-      {/* Hero Section */}
+
       <section className="hero">
         <div className="hero-content">
-          <h1>Security Made Easy <br /> Efficient and Affordable</h1>
+          <h1>Chat Your Way to Cyber Safety <br /> Smart, Instant & Reliable</h1>
           <p>
-            We have built an all-in-one cybersecurity platform <br />
-            designed to protect what matters the most to you.
+            Meet your personal cybersecurity assistant—<br />
+            Get expert advice and actions, right when you need them.
           </p>
           <div className="cta-buttons">
-            <button className="cta-btn primary">Get Started</button>
-            <button className="cta-btn secondary">Learn More</button>
+            <Link to="/register" className="cta-btn primary">Chat Now</Link>
+
+
+            <Link to="/contact" className="cta-btn secondary">Connet With US</Link>
+
           </div>
         </div>
         <div className="hero-image">
-          <img src="/hacker2.jpg" alt="Hacker Illustration" />
-
-
+          <img src="/hacker2.jpg" alt="Cyber Chatbot Illustration" />
         </div>
       </section>
 
-      {/* Features Section */}
+
       <section className="features">
-        <h2>Why Choose Our Platform?</h2>
+        <h2>Why Use Our Chatbot?</h2>
         <div className="features-grid">
           <div className="feature-item">
-            <h3>Real-Time Threat Detection</h3>
-            <p>Our AI-powered system detects and prevents cyber threats before they happen.</p>
+            <h3>Instant Cyber Help</h3>
+            <p>Ask any cybersecurity question and get quick, accurate solutions tailored to your issue.</p>
           </div>
           <div className="feature-item">
-            <h3>Secure Your Digital Identity</h3>
-            <p>Protect your online presence from hacking, phishing, and fraud.</p>
+            <h3>Action-Oriented Guidance</h3>
+            <p>From threat removal to system hardening, get step-by-step instructions you can follow right away.</p>
           </div>
           <div className="feature-item">
-            <h3>Encrypted Cloud Storage</h3>
-            <p>Safeguard your sensitive files with top-tier encryption.</p>
+            <h3>AI-Powered Intelligence</h3>
+            <p>Our chatbot is trained on real-world cyber threats to give you smart, reliable advice.</p>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
       <br></br>
       <section className="how-it-works">
         <h2>How It Works</h2>
         <div className="steps">
           <div className="step">
-            <h3>1. Scan for Vulnerabilities</h3>
-            <p>Our system analyzes your digital footprint and identifies weak points.</p>
+            <h3>1. Ask Your Cyber Question</h3>
+            <p>Type any security-related concern—malware, phishing, data loss, you name it.</p>
           </div>
           <div className="step">
-            <h3>2. Implement Security Measures</h3>
-            <p>We provide AI-driven solutions to strengthen your cybersecurity.</p>
+            <h3>2. Get Solutions + Actions</h3>
+            <p>The chatbot offers a detailed answer and shows you exactly what to do next.</p>
           </div>
           <div className="step">
-            <h3>3. Monitor and Stay Protected</h3>
-            <p>Enjoy 24/7 monitoring and real-time updates against new threats.</p>
+            <h3>3. Stay Secure, Stay Informed</h3>
+            <p>Keep chatting for updates, best practices, and ongoing protection tips.</p>
           </div>
         </div>
       </section>
       <br></br>
 
-      {/* Testimonials Section */}
-      <section className="testimonials">
-        <h2>What Our Users Say</h2>
-        <div className="testimonial-card">
-          <p>"This platform saved my company from a major data breach!"</p>
-          <span>- Sarah J., IT Manager</span>
-        </div>
-        <div className="testimonial-card">
-          <p>"Finally, a cybersecurity tool that's easy to use and incredibly effective."</p>
-          <span>- Alex R., Software Engineer</span>
-        </div>
-      </section>
 
-      {/* Call to Action */}
       <section className="cta-section">
-        <h2>Ready to Secure Your Digital World?</h2>
-        <p>Sign up today and get the best cybersecurity protection available.</p>
-        <Link to="/register" className="cta-btn primary">Start Now</Link>
+        <h2>Got a Cyber Question? We've Got Your Back.</h2>
+        <p>Start chatting now and take control of your digital safety.</p>
+        <Link to="/register" className="cta-btn primary">Talk to the BOT</Link>
       </section>
     </>
   );
