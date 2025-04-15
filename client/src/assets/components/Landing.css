@@ -6,10 +6,6 @@ body {
     color: #ffffff;
 }
 
-* {
-    color: white;
-}
-
 /* Hero Section */
 .hero {
     display: flex;
@@ -20,10 +16,8 @@ body {
     position: relative;
     z-index: 2;
     margin-top: -10px;
-
 }
 
-/* Hero Content */
 .hero-content {
     max-width: 550px;
     margin-left: 25px;
@@ -37,7 +31,6 @@ body {
     -webkit-text-fill-color: transparent;
     margin: 0 0 10px;
     text-align: left;
-    color: white;
 }
 
 .hero-content p {
@@ -65,7 +58,6 @@ body {
     text-transform: uppercase;
 }
 
-/* Primary Button */
 .cta-btn.primary {
     background: linear-gradient(90deg, #ff6b00, #6b5bff);
     color: #ffffff;
@@ -76,7 +68,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Secondary Button */
 .cta-btn.secondary {
     background-color: transparent;
     border: 2px solid #ffffff;
@@ -105,7 +96,6 @@ body {
     padding: 60px 80px;
 }
 
-/* Gradient Borders & Text */
 .features h2,
 .how-it-works h2,
 .testimonials h2,
@@ -125,21 +115,49 @@ body {
     margin-top: 30px;
 }
 
-/* Feature Items */
+/* Feature Items with Liquid Effect */
 .feature-item,
 .step,
 .testimonial-card {
+    position: relative;
+    overflow: hidden;
     border: 1px solid white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
     flex: 1;
+    z-index: 1;
+    transition: background 0.6s ease, transform 0.3s ease;
+}
+
+/* Liquid Effect */
+.feature-item::before,
+.step::before,
+.testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.4), rgba(107, 91, 255, 0.4));
+    transform: translateX(-100%) rotate(25deg);
+    filter: blur(40px);
+    transition: transform 1s ease;
+    z-index: -1;
+}
+
+.feature-item:hover::before,
+.step:hover::before,
+.testimonial-card:hover::before {
+    transform: translateX(0) rotate(0deg);
 }
 
 .feature-item:hover,
 .step:hover,
 .testimonial-card:hover {
     background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    transform: scale(1.03);
 }
 
 /* Step Text */
@@ -192,7 +210,6 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
-    text-decoration: none;
 }
 
 .cta-section .cta-btn:hover {
@@ -211,7 +228,6 @@ body {
     .hero-content {
         max-width: 100%;
         margin-bottom: 20px;
-
     }
 
     .cta-buttons {
@@ -247,4 +263,16 @@ body {
     .testimonial-card {
         width: 90%;
     }
+}
+
+
+.cta-btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s ease;
 }
