@@ -1,0 +1,275 @@
+/* General Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+  padding: 15px 50px;
+  color: white;
+}
+
+.logo {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.logo:hover {
+  color: cyan;
+}
+
+.logo-link {
+  font-size: 40px;
+  font-weight: bold;
+  text-decoration: none;
+  background: linear-gradient(90deg, #ff6b00, #6b5bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.3s ease-in-out;
+}
+
+.logo-link:hover {
+  transform: scale(1.2);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 28px;
+  position: relative;
+  transition: color 0.3s;
+}
+
+/* Moving underline effect */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b00, #6b5bff);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+  background: linear-gradient(90deg, #ff6b00, #6b5bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Auth Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.login-btn,
+.register-btn {
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+  text-transform: uppercase;
+}
+
+.login-btn {
+  background: linear-gradient(90deg, #ff6b00, #6b5bff);
+  color: white;
+}
+
+.register-btn {
+  background: transparent;
+  border: 2px solid #ff6b00;
+  color: #ff6b00;
+}
+
+.login-btn:hover {
+  background: linear-gradient(90deg, #ff8c2a, #8a7cff);
+  transform: scale(1.05);
+}
+
+.register-btn:hover {
+  background: linear-gradient(90deg, #ff6b00, #6b5bff);
+  color: white;
+  transform: scale(1.05);
+}
+
+.navbar-auth {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar-user {
+  font-size: 18px;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  background: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.logout-btn:hover {
+  background: #d32f2f;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    padding: 10px;
+    position: relative;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .menu-toggle {
+    display: flex;
+    cursor: pointer;
+    font-size: 28px;
+    color: white;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.menu-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 30px;
+  height: 3px;
+  background: white;
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-toggle.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.nav-item {
+  text-decoration: none;
+  font-size: larger;
+  margin-top: 0px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+  transition: 0.3s ease-in-out;
+}
+
+/* LOGIN - Gradient Background with White Text */
+/* LOGIN - Gradient Background with White Text */
+.sign-up {
+  background: linear-gradient(45deg, #ff7f50, #6b5bff);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: 0.3s ease-in-out;
+}
+
+/* Pseudo-element for gradient border */
+.sign-up::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 2px;
+  background: linear-gradient(45deg, #ff7f50, #6b5bff);
+  -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  mask-composite: exclude;
+  mask-composite: exclude;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+
+/* SIGN-UP - Gradient Text with Border */
+.login {
+  background: none;
+  border: 2px solid #ff7f50;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ff7f50, #6b5bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: 0.3s ease-in-out;
+}
+
+.login:hover {
+  background: linear-gradient(45deg, #6b5bff, #ff7f50);
+  color: white;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: white;
+}

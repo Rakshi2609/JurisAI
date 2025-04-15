@@ -1,0 +1,21 @@
+.about-footer {
+  text-align: center;
+  margin-top: -50px;
+  padding: 20px 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+  bottom: 0;
+  width: 100%;
+}
+
+.about-footer p {
+  margin: 10px 0;
+  letter-spacing: 1px;
+}
+
+.about-footer strong {
+  background: linear-gradient(90deg, #ff6b00, #6b5bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}

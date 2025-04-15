@@ -1,0 +1,95 @@
+/* Full-screen background with the image */
+.signup-container {
+  height: 100vh;
+  width: 100vw;
+  background: url('login.png') repeat center center/cover;
+  /* Your image path */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.PAR {
+  color: white;
+}
+
+/* Form container */
+.signup-form {
+  background: #000000b3;
+  /* Transparent black form */
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Form inputs */
+.signup-form input {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-bottom: 2px solid white;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.signup-form input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signup-form input:focus {
+  border-bottom: 2px solid #4caf50;
+}
+
+/* Submit button with hover effect */
+.submit-btn {
+  width: 100px;
+  height: 60px;
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #4caf50;
+  color: white;
+  border: 2px solid #4caf50;
+}
+
+/* Smooth transitions */
+button,
+input {
+  transition: all 0.3s ease;
+}
+
+.ask {
+  color: white;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .signup-form {
+    width: 90%;
+  }
+
+  .submit-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}

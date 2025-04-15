@@ -1,0 +1,98 @@
+/* Full-screen background with the image */
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  background: url('login.jpg') no-repeat center center/cover;
+  /* Your image path */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.PAR {
+  color: rgb(255, 255, 255);
+}
+
+/* Form container */
+.login-form {
+  background: #000000b3;
+  /* Transparent white form */
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  /* background: transparent; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Form inputs */
+.login-form input {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-bottom: 2px solid white;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.login-form input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-form input:focus {
+  border-bottom: 2px solid #7730bf;
+}
+
+/* Submit button with arrow */
+.submit-btn {
+  width: 100px;
+  height: 60px;
+  background: linear-gradient(45deg, #800080, #6324bc, #4b0082);
+  ;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(45deg, #800080, #6324bc, #4b0082);
+  /* Purple Gradient */
+  color: white;
+  border: none;
+  transform: scale(1.05);
+  /* Slight Growth */
+}
+
+
+/* Smooth transitions */
+button,
+input {
+  transition: all 0.3s ease;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .login-form {
+    width: 90%;
+  }
+
+  .submit-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}

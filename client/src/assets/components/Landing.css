@@ -1,0 +1,250 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: radial-gradient(circle, #0d001a 10%, #000000 90%);
+    color: #ffffff;
+}
+
+* {
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 80px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+    margin-top: -10px;
+
+}
+
+/* Hero Content */
+.hero-content {
+    max-width: 550px;
+    margin-left: 25px;
+}
+
+.hero-content h1 {
+    font-size: 60px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 10px;
+    text-align: left;
+    color: white;
+}
+
+.hero-content p {
+    font-size: 18px;
+    line-height: 1.4;
+    color: #bbb;
+    margin-top: 8px;
+}
+
+/* Call-to-Action Buttons */
+.cta-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.cta-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+}
+
+/* Primary Button */
+.cta-btn.primary {
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    color: #ffffff;
+}
+
+.cta-btn.primary:hover {
+    background: linear-gradient(90deg, #6b5bff, #ff6b00);
+    transform: scale(1.05);
+}
+
+/* Secondary Button */
+.cta-btn.secondary {
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+}
+
+.cta-btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+/* Hero Image */
+.hero-image img {
+    width: 400px;
+    max-width: 100%;
+    margin-right: 55px;
+    mix-blend-mode: multiply;
+}
+
+/* Sections */
+.features,
+.how-it-works,
+.testimonials,
+.cta-section {
+    text-align: center;
+    padding: 60px 80px;
+}
+
+/* Gradient Borders & Text */
+.features h2,
+.how-it-works h2,
+.testimonials h2,
+.cta-section h2 {
+    font-size: 38px;
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Grid Layouts */
+.features-grid,
+.steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* Feature Items */
+.feature-item,
+.step,
+.testimonial-card {
+    border: 1px solid white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+    flex: 1;
+}
+
+.feature-item:hover,
+.step:hover,
+.testimonial-card:hover {
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+}
+
+/* Step Text */
+.step h3 {
+    font-size: 20px;
+    color: white;
+}
+
+.step p,
+.testimonial-card p {
+    font-size: 16px;
+    color: #ddd;
+}
+
+/* Testimonials */
+.testimonial-card {
+    max-width: 450px;
+    margin: 15px auto;
+}
+
+.testimonial-card span {
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    display: block;
+    margin-top: 8px;
+}
+
+/* Call to Action Section */
+.cta-section {
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    border-radius: 10px;
+    margin: 40px auto;
+    max-width: 75%;
+    padding: 40px;
+}
+
+.cta-section p {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 25px;
+}
+
+.cta-section .cta-btn {
+    background: #ffffff;
+    color: #ff6b00;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.cta-section .cta-btn:hover {
+    background: #ff6b00;
+    color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        margin-bottom: 20px;
+
+    }
+
+    .cta-buttons {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cta-btn {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .hero-image img {
+        width: 300px;
+    }
+
+    .features-grid,
+    .steps {
+        flex-direction: column;
+    }
+
+    .feature-item,
+    .step {
+        margin-bottom: 15px;
+    }
+
+    .testimonials,
+    .cta-section {
+        padding: 40px 20px;
+    }
+
+    .testimonial-card {
+        width: 90%;
+    }
+}
