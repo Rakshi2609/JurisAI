@@ -6,8 +6,8 @@ const JurisBot = () => {
     const [userInput, setUserInput] = useState("");
     const [legalDataset, setLegalDataset] = useState({ questions: [] });
     const [isFirstMessageSent, setIsFirstMessageSent] = useState(false);
-    const chatWindowRef = useRef(null);
-    const lastMessageRef = useRef(null);
+    const chatWindowRef = useRef(null); // Reference to chat window
+    const lastMessageRef = useRef(null); // Reference to the last message
 
     useEffect(() => {
         const loadQuestions = async () => {
@@ -33,18 +33,9 @@ const JurisBot = () => {
     const getBotResponse = (userMessage) => {
         const lowerCaseMessage = userMessage.trim().toLowerCase();
 
-        // Direct match
-        let response = legalDataset.questions.find((q) =>
+        const response = legalDataset.questions.find((q) =>
             q.question.toLowerCase().includes(lowerCaseMessage)
         );
-
-        // Keyword-based search if no direct match
-        if (!response) {
-            const words = lowerCaseMessage.split(" ");
-            response = legalDataset.questions.find((q) =>
-                words.some(word => q.question.toLowerCase().includes(word))
-            );
-        }
 
         if (!response) return "Sorry, I couldn't find an answer to your question.";
 
@@ -73,6 +64,7 @@ const JurisBot = () => {
         }, 500);
     };
 
+    // Auto-scroll function using Intersection Observer
     useEffect(() => {
         if (lastMessageRef.current) {
             lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -81,6 +73,7 @@ const JurisBot = () => {
 
     return (
         <div className="JurisBot">
+
             {!isFirstMessageSent && (
                 <div className="hello-container">
                     <div className="hello">
@@ -93,7 +86,7 @@ const JurisBot = () => {
                     <div
                         key={index}
                         className={`message ${msg.sender}-message`}
-                        ref={index === chatMessages.length - 1 ? lastMessageRef : null}
+                        ref={index === chatMessages.length - 1 ? lastMessageRef : null} // Auto-scroll to last message
                     >
                         <div className="message-content" dangerouslySetInnerHTML={{ __html: msg.content }} />
                     </div>
