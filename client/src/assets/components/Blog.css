@@ -1,161 +1,153 @@
-import React, { useState } from 'react';
-import './Blog.css';
+.blog-container {
+    padding: 20px;
+    background: transparent;
+    max-width: 900px;
+    margin: 0 auto 100px;
+    border-radius: 10px;
+    color: white;
+    animation: fadeIn 2s ease-in-out;
+}
 
-const Blog = () => {
-  const [selectedPost, setSelectedPost] = useState(null);
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'AI in Business: A Legal Revolution',
-      preview: 'Discover how AI is transforming business operations...',
-      content: 'AI is revolutionizing how businesses manage legal risk. Tools like Juris AI automate contract analysis, compliance checks, and legal research. These solutions save time and reduce human error in legal operations.',
-      author: 'Juris AI Expert',
-      date: 'April 12, 2025'
-    },
-    {
-      id: 2,
-      title: 'Securing Your Business in the Digital Era',
-      preview: 'Explore strategies to keep your business legally sound...',
-      content: 'Digital transformation brings new legal responsibilities. Learn how to protect your business against cyber threats, maintain data compliance, and prevent intellectual property breaches using AI-powered tools.',
-      author: 'Cybersecurity Consultant',
-      date: 'April 10, 2025'
-    },
-    {
-      id: 3,
-      title: 'How Juris AI Simplifies Legal Compliance',
-      preview: 'Struggling with compliance? Juris AI can help...',
-      content: 'Compliance with GDPR, HIPAA, and other frameworks can be challenging. Juris AI simplifies this by automating policy checks, generating compliance reports, and offering legal summaries for businesses.',
-      author: 'Legal Analyst',
-      date: 'April 9, 2025'
-    },
-    {
-      id: 4,
-      title: 'Preventing Legal Risks with Predictive AI',
-      preview: 'Learn how predictive tools can reduce risk...',
-      content: 'Predictive AI analyzes historical data and flags high-risk contracts or employee behavior that might lead to legal disputes. Businesses can now act before problems escalate.',
-      author: 'Risk Management Expert',
-      date: 'April 7, 2025'
-    },
-    {
-      id: 5,
-      title: 'Cybercrime Laws Every Startup Should Know',
-      preview: 'Startups are vulnerable — learn the laws...',
-      content: 'From data theft to phishing, startups face several cyber threats. This blog explains the key IPC sections related to cybercrime and how Juris AI helps identify legal actions against offenders.',
-      author: 'Startup Legal Advisor',
-      date: 'April 5, 2025'
-    },
-    {
-      id: 6,
-      title: 'Contract Automation: A Game-Changer for SMEs',
-      preview: 'SMEs can now automate contracts legally...',
-      content: 'Small businesses often overlook the legal fine print. Juris AI helps draft, review, and flag issues in contracts using AI-based legal reasoning. No more costly legal mistakes.',
-      author: 'Legal Tech Specialist',
-      date: 'April 4, 2025'
-    },
-    {
-      id: 7,
-      title: 'Understanding Digital Evidence in Indian Law',
-      preview: 'Digital evidence can be tricky to validate...',
-      content: 'Courts in India accept digital evidence if it follows Section 65B of the Indian Evidence Act. Learn how Juris AI helps validate and format digital evidence for legal use.',
-      author: 'Criminal Law Professor',
-      date: 'April 2, 2025'
-    },
-    {
-      id: 8,
-      title: 'Why AI Can’t Fully Replace Human Lawyers (Yet)',
-      preview: 'AI is powerful, but has its limits...',
-      content: 'While AI tools like Juris AI enhance productivity, they lack human judgment, empathy, and court experience. The future is a partnership between legal professionals and smart AI.',
-      author: 'Ethics in AI Researcher',
-      date: 'March 31, 2025'
-    },
-    {
-      id: 9,
-      title: 'Legal Chatbots: Changing Client Interaction',
-      preview: 'Chatbots make legal help accessible...',
-      content: 'Legal chatbots are available 24/7 and simplify basic legal consultations. Juris AI personalizes responses based on user queries, offering step-by-step guidance for complaints, FIRs, and more.',
-      author: 'UX Researcher',
-      date: 'March 29, 2025'
-    },
-    {
-      id: 10,
-      title: 'The Role of AI in Cybercrime Detection',
-      preview: 'AI helps track and predict cyber attacks...',
-      content: 'AI tools monitor network behavior and predict unusual activity that may indicate a cybercrime. Juris AI connects this detection to appropriate legal frameworks for swift action.',
-      author: 'Network Security Analyst',
-      date: 'March 27, 2025'
-    },
-    {
-      id: 11,
-      title: 'Juris AI: Behind the Scenes',
-      preview: 'How does Juris AI actually work?',
-      content: 'Juris AI is built using natural language processing and legal ontologies. It maps user input to relevant legal databases, IPC sections, and case laws to deliver context-aware legal support.',
-      author: 'Lead Developer',
-      date: 'March 25, 2025'
-    },
-    {
-      id: 12,
-      title: 'Digital Footprint and Legal Consequences',
-      preview: 'Your online presence can be used in court...',
-      content: 'Public social media posts, old comments, and leaked data can lead to defamation or privacy lawsuits. Juris AI helps identify risky digital traces and recommends safe actions.',
-      author: 'Privacy Law Consultant',
-      date: 'March 24, 2025'
-    },
-    {
-      id: 13,
-      title: 'AI-Powered Document Review for Legal Teams',
-      preview: 'Reviewing documents just got faster...',
-      content: 'Legal teams spend hours reviewing documents. Juris AI accelerates this process by flagging clauses, identifying inconsistencies, and comparing with past rulings for relevance.',
-      author: 'Corporate Law Advisor',
-      date: 'March 22, 2025'
-    },
-    {
-      id: 14,
-      title: 'Legal Tech Trends to Watch in 2025',
-      preview: 'What’s next for legal technology?',
-      content: '2025 will see growth in smart legal assistants, automated dispute resolution, and blockchain notarization. Juris AI is at the forefront of integrating AI into legal workflows.',
-      author: 'Tech Policy Analyst',
-      date: 'March 20, 2025'
-    },
-    {
-      id: 15,
-      title: 'Filing a Cybercrime Complaint: Step-by-Step',
-      preview: 'Don’t know how to file a cyber complaint?',
-      content: 'Learn how Juris AI guides users through the cybercrime complaint process — from gathering evidence and identifying IPC sections to submitting complaints through government portals.',
-      author: 'Digital Rights Advocate',
-      date: 'March 18, 2025'
+.blog-title {
+    text-align: center;
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.2em;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+
+.blog-post {
+    background: #111;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.blog-post:hover {
+    transform: scale(1.05);
+    border: 2px solid white;
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    color: white;
+}
+
+.blog-meta {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    margin-top: 12px;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-  ];
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.blog-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
-  return (
-    <div className="blog-container">
-      <h1 className="blog-title">AI & Cybersecurity Insights Blog</h1>
+.blog-popup {
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    color: white;
+    width: 90%;
+    max-width: 750px;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    animation: slideIn 0.4s ease;
+    max-height: 80vh;
+    overflow-y: auto;
+}
 
-      {selectedPost ? (
-        <div className="blog-popup">
-          <button className="back-btn" onClick={() => setSelectedPost(null)}>← </button>
-          <h2>{selectedPost.title}</h2>
-          <p>{selectedPost.content}</p>
-          <div className="blog-meta">
-            <span>By {selectedPost.author}</span>
-            <span>{selectedPost.date}</span>
-          </div>
-        </div>
-      ) : (
-        blogPosts.map(post => (
-          <div key={post.id} className="blog-post" onClick={() => setSelectedPost(post)}>
-            <h2>{post.title}</h2>
-            <p>{post.preview}</p>
-            <div className="blog-meta">
-              <span>By {post.author}</span>
-              <span>{post.date}</span>
-            </div>
-          </div>
-        ))
-      )}
-    </div>
-  );
-};
 
-export default Blog;
+.blog-popup .back-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: white;
+    color: #ff6b00;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.blog-popup .back-btn:hover {
+    background: #f0f0f0;
+}
+
+.blog-popup h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    max-width: 80%;
+}
+
+.blog-popup p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-top: 1rem;
+}
+
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .blog-popup {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .blog-popup h2 {
+        font-size: 1.6rem;
+    }
+
+    .blog-popup p {
+        font-size: 1rem;
+    }
+
+    .blog-popup .back-btn {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
