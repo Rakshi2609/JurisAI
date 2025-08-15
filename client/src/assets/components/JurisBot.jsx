@@ -1,49 +1,70 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./JurisBot.css"; // Ensure this CSS file exists
-import axios from "axios"; // For making API requests
 
 const JurisBot = () => {
     const [chatMessages, setChatMessages] = useState([]);
     const [userInput, setUserInput] = useState("");
+    const [legalDataset, setLegalDataset] = useState({ questions: [] });
     const [isFirstMessageSent, setIsFirstMessageSent] = useState(false);
     const chatWindowRef = useRef(null); // Reference to chat window
     const lastMessageRef = useRef(null); // Reference to the last message
-    const [isLoading, setIsLoading] = useState(false); // To show loading state
+
+    useEffect(() => {
+        const loadQuestions = async () => {
+            try {
+                const response = await fetch("/legalDataset.json");
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const data = await response.json();
+                console.log("✅ JSON Loaded:", data);
+                setLegalDataset(data);
+            } catch (error) {
+                console.error("❌ Failed to load JSON:", error);
+            }
+        };
+
+        loadQuestions();
+    }, []);
 
     const appendMessage = (content, sender) => {
-        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        setChatMessages((prevMessages) => [...prevMessages, { content, sender, timestamp }]);
+        setChatMessages((prevMessages) => [...prevMessages, { content, sender }]);
         if (!isFirstMessageSent) setIsFirstMessageSent(true);
     };
 
-    const getBotResponseFromServer = async (userMessage) => {
-        setIsLoading(true);
-        try {
-            const response = await axios.post("http://localhost:5000/api/chatbot", { message: userMessage });
-            setIsLoading(false);
-            return response.data.response;
-        } catch (error) {
-            setIsLoading(false);
-            console.error("❌ Error fetching bot response:", error);
-            if (error.response && error.response.data && error.response.data.error) {
-                return `Error: ${error.response.data.error}`;
-            }
-            return "Sorry, something went wrong while contacting the chatbot service.";
+    const getBotResponse = (userMessage) => {
+        const lowerCaseMessage = userMessage.trim().toLowerCase();
+
+        const response = legalDataset.questions.find((q) =>
+            q.question.toLowerCase().includes(lowerCaseMessage)
+        );
+
+        if (!response) return "Sorry, I couldn't find an answer to your question.";
+
+        let botReply = response.answer;
+
+        if (response.laws?.length) {
+            botReply += `<br><strong>Relevant Laws:</strong> ${response.laws.join(", ")}`;
         }
+
+        if (response.scenarios?.length) {
+            botReply += `<br><strong>Example Cases:</strong><br> - ${response.scenarios.join("<br> - ")}`;
+        }
+
+        return botReply;
     };
 
-    const handleUserInput = async () => {
+    const handleUserInput = () => {
         if (!userInput.trim()) return;
 
         appendMessage(userInput, "user");
-        const currentInput = userInput; // Store current input before clearing
         setUserInput("");
 
-        const botResponse = await getBotResponseFromServer(currentInput);
-        appendMessage(botResponse, "bot");
+        setTimeout(() => {
+            const botResponse = getBotResponse(userInput);
+            appendMessage(botResponse, "bot");
+        }, 500);
     };
 
-    // Auto-scroll function
+    // Auto-scroll function using Intersection Observer
     useEffect(() => {
         if (lastMessageRef.current) {
             lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -57,7 +78,6 @@ const JurisBot = () => {
                 <div className="hello-container">
                     <div className="hello">
                         <h1>Hello JurisBot</h1>
-                        <p>Ask me any legal question, or describe a situation.</p>
                     </div>
                 </div>
             )}
@@ -66,21 +86,11 @@ const JurisBot = () => {
                     <div
                         key={index}
                         className={`message ${msg.sender}-message`}
-                        ref={index === chatMessages.length - 1 ? lastMessageRef : null}
+                        ref={index === chatMessages.length - 1 ? lastMessageRef : null} // Auto-scroll to last message
                     >
-                        <div className="message-bubble">
-                            <div className="message-content" dangerouslySetInnerHTML={{ __html: msg.content }} />
-                            <div className="message-timestamp">{msg.timestamp}</div>
-                        </div>
+                        <div className="message-content" dangerouslySetInnerHTML={{ __html: msg.content }} />
                     </div>
                 ))}
-                {isLoading && (
-                    <div className="message bot-message">
-                        <div className="message-bubble">
-                            <div className="message-content">JurisBot is typing...</div>
-                        </div>
-                    </div>
-                )}
             </div>
             <div className="chat-input-container">
                 <input
