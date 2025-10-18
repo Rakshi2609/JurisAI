@@ -57,11 +57,21 @@ router.post('/register', async (req, res) => {
 // Generate a 6-digit verification code
 router.post('/verification', async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, verificationToken} = req.body;
     if (!email) {
       return res.status(400).json({ error: 'Email is required.' });
     }
     const code = generateVerificationCode();
+    console.log(`Sending verification code ${code} to ${email}`);
+    await User.updateOne({ email }, { verificationToken: code });
+    if (!verificationToken || verificationToken !== code) {
+      return res.status(400).json({ error: 'Invalid verification code.' });
+    }
+    if(verificationToken === code){
+      await User.updateOne({ email }, { verified: true });
+    }else{
+        return res.status(400).json({ error: 'The code is incorrect.' });
+    }
     return res.status(200).json({ message: 'Verification code generated', email, code });
   } catch (err) {
     return res.status(500).json({ error: err.message });
