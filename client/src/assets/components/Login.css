@@ -96,3 +96,24 @@ input {
     font-size: 20px;
   }
 }
+
+/* Password visibility toggle (non-intrusive) */
+.password-wrapper { position: relative; width: 100%; }
+.password-input { width: 100%; padding-right: 44px; }
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  border-radius: 50%;
+}
+.toggle-password:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }

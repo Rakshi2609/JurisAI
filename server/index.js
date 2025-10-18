@@ -1,41 +1,49 @@
-// index.js
+// index.js (ESM)
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const fs = require('fs'); // Import fs module for reading files
-const path = require('path'); // Import path module for file paths
-const Fuse = require('fuse.js'); // Import Fuse.js
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import fs from 'fs';
+import path, { dirname } from 'path';
+import Fuse from 'fuse.js';
+import { fileURLToPath } from 'url';
+
+import User from './models/ourmap.js';
+
 const app = express();
 const PORT = process.env.PORT || 5000;
-const User = require('./models/ourmap')
 
 // Middleware
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Parse JSON bodies
 
 // MongoDB connection
-const mongoURI = 'mongodb+srv://rakshithganjimut:oKyTPHX4BZrr8oaB@cluster0.bv5tnus.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'; // Replace with your MongoDB URI
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+const mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jurisai';
+mongoose
+  .connect(mongoURI)
   .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 // Load legal dataset and initialize Fuse.js
 let legalDataset = { questions: [] };
 let fuse = null;
 
 try {
-    const legalDatasetPath = path.join(__dirname, '..', 'client', 'public', 'legalDataset.json');
-    const rawData = fs.readFileSync(legalDatasetPath);
-    legalDataset = JSON.parse(rawData);
+  // __dirname replacement for ESM
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
 
-    const options = {
-        keys: ["question", "scenarios"],
-        includeScore: true,
-        threshold: 0.4,
-    };
-    fuse = new Fuse(legalDataset.questions, options);
-    console.log('✅ Legal dataset loaded and Fuse.js initialized');
+  const legalDatasetPath = path.join(__dirname, '..', 'client', 'public', 'legalDataset.json');
+  const rawData = fs.readFileSync(legalDatasetPath, 'utf8');
+  legalDataset = JSON.parse(rawData);
+
+  const options = {
+    keys: ['question', 'scenarios'],
+    includeScore: true,
+    threshold: 0.4,
+  };
+  fuse = new Fuse(legalDataset.questions, options);
+  console.log('✅ Legal dataset loaded and Fuse.js initialized');
 } catch (error) {
     console.error('❌ Failed to load legal dataset or initialize Fuse.js:', error);
 }
@@ -127,4 +135,4 @@ app.post('/api/users', (req, res) => {
 // app.listen(PORT, () => {
 //   console.log(`Server is running on http://localhost:${PORT}`);
 // });
-module.exports = app;
+export default app;
