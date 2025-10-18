@@ -1,4 +1,5 @@
 // index.js (ESM)
+import 'dotenv/config';
 
 import express from 'express';
 import mongoose from 'mongoose';
@@ -9,6 +10,7 @@ import Fuse from 'fuse.js';
 import { fileURLToPath } from 'url';
 
 import User from './models/ourmap.js';
+import authRoutes from './routes/auth.route.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -49,41 +51,8 @@ try {
 }
 
 
-app.post('/api/register', async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    res.json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-
-    if (user) {
-      if (user.password === password) {
-        // Return message and user data as an object
-        res.json({
-          message: "Successful",
-          user: {
-            name: user.name,
-            email: user.email
-          }
-        });
-      } else {
-        res.status(401).json({ message: "Incorrect password" });
-      }
-    } else {
-      res.status(404).json({ message: "No user exists" });
-    }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+app.use('/api', authRoutes);
+  
 
 // Chatbot API endpoint
 app.post('/api/chatbot', (req, res) => {
@@ -130,9 +99,9 @@ app.post('/api/users', (req, res) => {
   // Here you would typically save the user to the database
   res.status(201).json({ message: 'User created successfully', user: { name, email } });
 });
-
-// Start the server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
-export default app;
+// const PORT = process.env.PORT || 5000;?
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+// Export the app for serverless/Vercel and local bootstrap in dev.js
+// export default app;
