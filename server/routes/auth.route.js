@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/ourmap.js';
 import { generateVerificationCode } from '../utils/verification.js';
+import { sendWelcomeEmail } from '../utils/mailer.js';
 
 const router = express.Router();
 
@@ -73,6 +74,18 @@ router.post('/verification', async (req, res) => {
         return res.status(400).json({ error: 'The code is incorrect.' });
     }
     return res.status(200).json({ message: 'Verification code generated', email, code });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Send welcome email
+router.post('/send-welcome', async (req, res) => {
+  try {
+    const { email, name } = req.body || {};
+    if (!email) return res.status(400).json({ error: 'Email is required.' });
+    await sendWelcomeEmail({ to: email, name: name || 'there' });
+    return res.status(200).json({ message: 'Welcome email sent' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
