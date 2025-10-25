@@ -1,197 +1,157 @@
-# JurisAI
+# JurisAI — Legal Q&A Chatbot (Full‑stack project)
 
-A full‑stack web app that helps users understand legal topics through a friendly chatbot experience. The frontend is a React (Vite) SPA with multiple pages and a protected JurisBot chat route. The backend is an Express + Mongoose API. Search is powered by Fuse.js over a curated dataset.
+Concise elevator pitch
+----------------------
 
-## Tech stack
+JurisAI is a full‑stack web application that helps users explore legal concepts with a friendly chatbot UI backed by a searchable knowledge base. It demonstrates end‑to‑end product skills: React (Vite) frontend, Express + Mongoose backend, email workflows (nodemailer), developer-friendly dev scripts, and a production deployment pipeline (Vercel). This repo is optimized to show practical engineering tradeoffs, testing hooks, and a clean developer experience — everything recruiters typically look for.
+
+Highlights recruiters care about
+--------------------------------
+
+- Role & contributions: Designed and implemented the UI/UX for signup/login/verification flows, built the protected JurisBot experience, implemented backend APIs (auth, verification, contact), and integrated email delivery for onboarding and contact forms.
+- Tech breadth: React (modern hooks), Vite, Node.js/Express, Mongoose, Fuse.js search, Nodemailer for transactional email, Vercel deployment.
+- Production readiness: Environment-driven configuration, serverless-compatible Express entrypoint, dev scripts, and a clear `vercel.json` for monorepo deployment.
+- Security awareness: Clear TODOs for password hashing, env-based secrets, and input sanitization.
+
+Key features (what to demo)
+---------------------------
+
+- Signup / Login with a verification flow (email code) and protected JurisBot route.
+- JurisBot: queryable knowledge base using Fuse.js; responses show referenced laws and scenarios.
+- Transactional emails: welcome email + verification code and contact form forwarding (admin ack).
+- Dev ergonomics: run locally with Vite + simple server bootstrap, or run everything via `vercel dev`.
+
+Tech stack (short)
+------------------
 
 - Frontend: React 19, Vite 6, React Router, Bootstrap 5
 - Backend: Node.js, Express 4, Mongoose 8
-- Search: Fuse.js 7
-- Deployment: Vercel (monorepo with `vercel.json` routing)
+- Search: Fuse.js
+- Email: Nodemailer
+- Deploy: Vercel (monorepo)
 
-## Monorepo layout
+Repository layout
+-----------------
 
 - `client/` — React app (Vite)
-  - `public/legalDataset.json` — knowledge base used by JurisBot
-  - `src/assets/components/` — UI components and pages
-- `server/` — Express API and Mongoose models
-  - `index.js` — Express app (exported for serverless)
-  - `models/ourmap.js` — User model (name, email, password)
-- `vercel.json` — Vercel configuration for API and static site
+  - `public/legalDataset.json` — knowledge base
+  - `src/assets/components/` — pages and UI components (Signup, Login, Verify, JurisBot, Contact)
+- `server/` — Express API, Mongoose models, utils (mailer, templates)
+  - `utils/mailer.js` — Nodemailer wrapper and templates
+  - `routes/auth.route.js` — auth, verification, contact, welcome endpoints
+- `vercel.json` — monorepo routing & build config
 
-## Features
+Quick, recruiter-friendly demo (local)
+------------------------------------
 
-- User registration and login (stored in MongoDB via Mongoose)
-- Protected JurisBot route (`/JurisBot`) gated by localStorage login
-- JurisBot answers fetched from `legalDataset.json` with law references and scenarios
-- Optional backend chatbot endpoint (`POST /api/chatbot`) using Fuse.js
-
-## Prerequisites
-
-- Node.js 18+ (recommended 18.17 or newer)
-- npm (or pnpm/yarn if you prefer)
-
-## Quick start (recommended: Vercel Dev)
-
-Vercel Dev respects `vercel.json`, wiring the API (`/api/*`) to the server and serving the client in one command.
+I recommend the Vercel developer flow for the simplest demo. The following commands run on Windows PowerShell.
 
 1) Install dependencies
 
 ```powershell
-# From repo root
 cd client; npm install; cd ..
 cd server; npm install; cd ..
 ```
 
-2) Run with Vercel Dev
+2a) Fast: run with Vercel Dev (single command)
 
 ```powershell
-# If you don't have it yet
-npm install -g vercel
+# install globally if you don't have it
+npm i -g vercel
 
-# From repo root
+# from repo root
 vercel dev
 ```
 
-- Frontend: served at the URL printed by Vercel Dev
-- API routes: available under `/api/*` according to `vercel.json`
-
-## Alternative: run client and server locally (notes)
-
-The current `server/index.js` exports an Express app (for Vercel serverless) and does not call `app.listen(...)`. To run the server locally without Vercel, add a tiny bootstrap file that imports the app and starts a listener (development-only):
-
-```js
-// server/dev.js (example)
-const app = require('./index');
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`API listening on http://localhost:${PORT}`));
-```
-
-Then:
+2b) Or run client + server locally (recommended for debugging)
 
 ```powershell
+# start server (example dev bootstrap)
 cd server
-npm install
+# create a .env with MONGODB_URI and SMTP_* vars (see below)
 node dev.js
-```
 
-For the client, start Vite (default port 5173):
-
-```powershell
+# in another terminal
 cd client
 npm run dev
 ```
 
-Because the React app calls relative `/api/...` URLs, set up a Vite dev proxy so those calls go to `http://localhost:5000` during local development. Update `client/vite.config.js`:
+Notes for local development
+---------------------------
 
-```js
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+- The frontend calls `/api/*`. Use the Vite proxy (in `client/vite.config.js`) or set axios.baseURL to `http://localhost:5000` in development (`client/src/main.jsx` already handles this).
+- Example env vars (server `.env` — do NOT commit):
 
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      '/api': 'http://localhost:5000',
-    },
-  },
-})
+```env
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster/mydb
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=you@example.com
+SMTP_PASS=<app-password>
+MAIL_FROM=JurisAI <no-reply@example.com>
+MAIL_TO=team@example.com
 ```
 
-Alternatively, configure Axios with a baseURL in development.
+Core API endpoints (what to check in an interview)
+--------------------------------------------------
 
-## Environment variables
+- `POST /api/register` — create account
+- `POST /api/login` — login; returns `{ user: { name, email, verified } }`
+- `POST /api/verification/send` — generates and emails a 6-digit code
+- `POST /api/verification/confirm` — confirm code and set `verified: true`
+- `POST /api/contact` — forwards contact form to admin and sends acknowledgement
 
-Move secrets out of source code before deploying.
+Design notes / tradeoffs
+------------------------
 
-- `MONGODB_URI` — MongoDB connection string
+- Passwords: intentionally stored in plaintext for the demo to keep code focused. Production must use bcrypt + salted hashes (TODO present in README).
+- Verification codes: stored on the user document for simplicity; an expiry and rate-limiting layer is recommended next.
+- Email templates: built with inline, compatible HTML (welcome + verification). Nodemailer handles delivery.
 
-Example `.env` for the server (do not commit):
+How I’d evaluate this project in an interview
+--------------------------------------------
 
-```
-MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>/<db>?retryWrites=true&w=majority
-```
+- Run the app locally via `vercel dev` or `node server/dev.js` + `npm run dev` in `client`.
+- Walk through the signup->login->verify flow. Show the `server/utils/templates/verificationCode.js` and `mailer.js` to discuss email delivery and templates.
+- Discuss next steps: hashing passwords, adding rate limits and code expiry, input validation, integration tests, and monitoring (Sentry/Loggly).
 
-Update `server/index.js` to read `process.env.MONGODB_URI` when you are ready to externalize the secret.
+Testing & QA
+------------
 
-## Scripts
+- No unit tests included yet. Quick wins: add Jest tests for `utils/verification.js` and simple integration tests for `/api/contact` using Supertest.
+- Manual test checklist is included in this README's Troubleshooting section.
 
-Frontend (`client`):
-- `npm run dev` — start Vite dev server
-- `npm run build` — production build to `dist/`
-- `npm run preview` — preview the production build
-- `npm run lint` — run ESLint
+Deployment
+----------
 
-Backend (`server`):
-- `npm start` — runs `nodemon index.js` (works on Vercel Dev; for pure local, use `dev.js` as shown above)
+- This repo is configured for Vercel. `vercel.json` maps `/api/*` to the server and serves the client static build for frontend routes. Use `vercel --prod` to publish.
 
-## App routes (client)
+Security and next priorities (short list)
+---------------------------------------
 
-- `/` — Landing
-- `/home` — Home
-- `/register` — Signup
-- `/login` — Login
-- `/blog`, `/business`, `/about`, `/contact` — Additional pages
-- `/JurisBot` — Protected chatbot (requires login)
+1. Hash passwords (bcrypt) and migrate user store.
+2. Add verification code expiry and request rate-limits.
+3. Harden input validation and sanitize HTML before sending to the client.
+4. Add unit and integration tests for critical paths.
 
-## API endpoints (server)
+Contact / where to look in this repo
+------------------------------------
 
-- `POST /api/register`
-  - Body: `{ name: string, email: string, password: string }`
-  - Response: created user JSON or `{ error }`
-- `POST /api/login`
-  - Body: `{ email: string, password: string }`
-  - Response: `{ message: 'Successful', user: { name, email } }` or error
-- `POST /api/chatbot`
-  - Body: `{ message: string }`
-  - Response: `{ response: string }` (HTML content with optional laws and scenarios)
-- `GET /` — health/welcome message
+- Start in `client/src/assets/components/` for the UI flows (Signup, Login, Verify, Contact, JurisBot).
+- See `server/routes/auth.route.js` for API logic and `server/utils/mailer.js` for email sending.
 
-Note: The current React `JurisBot` component uses the static `public/legalDataset.json` directly. The `/api/chatbot` endpoint exists for a server-driven approach if you want to switch later.
+Appendix: Troubleshooting (quick)
+--------------------------------
 
-## Data source
+- 404s on `/api/*` when running the client alone — use `vercel dev` or set the Vite dev proxy.
+- SMTP errors — verify SMTP_* env vars and that the provider allows programmatic login (Gmail requires an app password).
+- MongoDB connection: ensure IP allowlist and correct `MONGODB_URI`.
 
-`client/public/legalDataset.json` contains Q&A items with fields:
+License
+-------
 
-- `question: string`
-- `answer: string`
-- `laws?: string[]`
-- `scenarios?: string[]`
+Add a license file if you plan to open-source this. MIT is a common, permissive choice.
 
-Both the client and server variants of JurisBot format responses with law references and example scenarios when present.
-
-## Deployment (Vercel)
-
-This repo includes a `vercel.json` that configures:
-
-- Builds
-  - `server/index.js` with `@vercel/node`
-  - `client` with `@vercel/static-build`
-- Routes
-  - `/api/(.*)` → `server/index.js`
-  - `/(.*)` → `client/$1`
-
-Deploy via the Vercel dashboard or:
-
-```powershell
-vercel
-# then
-vercel --prod
-```
-
-## Security notes and TODOs
-
-- Passwords are stored in plaintext right now (demo only). Use bcrypt to hash passwords and add proper auth (sessions/JWT).
-- The MongoDB URI is hard-coded in `server/index.js`. Move to `process.env.MONGODB_URI` and use environment variables on Vercel.
-- The chatbot response is rendered with `dangerouslySetInnerHTML` in the client. If you ever allow user-generated content, sanitize HTML.
-- Add input validation on all API endpoints.
-
-## Troubleshooting
-
-- 404s on `/api/*` when running only the Vite dev server: use Vercel Dev or add the Vite proxy as shown above.
-- CORS issues when hitting the API from a different origin: ensure CORS is configured, or use same-origin via proxy.
-- MongoDB connection failures: verify `MONGODB_URI`, IP allowlist, and that the database exists.
-
-## License
-
-This project currently does not include a top-level license file. If you intend to open-source it, consider adding one (e.g., MIT/ISC).
+---
+This README focuses on the points technical recruiters and hiring managers care about: clear demo steps, responsibilities, architecture, and next steps. If you want, I can also generate a short one‑page PDF resume entry summarizing this project for your CV.
