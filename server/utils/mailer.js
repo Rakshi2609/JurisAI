@@ -2,6 +2,7 @@
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
 import welcomeTemplate from './templates/welcome.js';
+import verificationCodeTemplate from './templates/verificationCode.js';
 
 // Expected env vars:
 // SMTP_HOST, SMTP_PORT, SMTP_SECURE (true/false), SMTP_USER, SMTP_PASS, MAIL_FROM
@@ -46,5 +47,11 @@ export async function sendWelcomeEmail({ to, name }) {
   return sendMail({ to, subject, html });
 }
 
-export { welcomeTemplate };
-export default { sendMail, sendWelcomeEmail };
+export async function sendVerificationCodeEmail({ to, name, code, expiresInMinutes = 10 }) {
+  const html = verificationCodeTemplate({ name, code, expiresInMinutes });
+  const subject = `Your JurisAI verification code: ${code}`;
+  return sendMail({ to, subject, html });
+}
+
+export { welcomeTemplate, verificationCodeTemplate };
+export default { sendMail, sendWelcomeEmail, sendVerificationCodeEmail };

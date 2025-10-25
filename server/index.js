@@ -94,11 +94,6 @@ app.get('/', (req, res) => {
 });
 
 // Example of a simple user route
-app.post('/api/users', (req, res) => {
-  const { name, email } = req.body;
-  // Here you would typically save the user to the database
-  res.status(201).json({ message: 'User created successfully', user: { name, email } });
-});
 // const PORT = process.env.PORT || 5000;?
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

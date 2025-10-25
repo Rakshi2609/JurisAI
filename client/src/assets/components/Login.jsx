@@ -16,8 +16,14 @@ const Login = () => {
 
       if (res.data.message === "Successful") {
         // Store user data in localStorage
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        navigate("/JurisBot");  // Redirect to home page
+        const user = res.data.user || {};
+        localStorage.setItem("user", JSON.stringify(user));
+        // If not verified, go to verify page first
+        if (!user.verified) {
+          navigate("/verify");
+        } else {
+          navigate("/JurisBot");
+        }
       } else {
         alert(`Login failed: ${res.data.message}`);  // Display the correct error message
       }

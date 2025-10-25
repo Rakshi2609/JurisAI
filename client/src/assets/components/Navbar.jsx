@@ -13,11 +13,9 @@ const Navbar = () => {
 
   const handleChatBotClick = (e) => {
     e.preventDefault();
-    if (user) {
-      navigate("/JurisBot");
-    } else {
-      navigate("/login");
-    }
+    if (!user) return navigate("/login");
+    if (user && user.verified) return navigate("/JurisBot");
+    return navigate("/verify");
   };
 
   return (

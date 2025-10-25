@@ -1,7 +1,7 @@
 import express from 'express';
 import User from '../models/ourmap.js';
 import { generateVerificationCode } from '../utils/verification.js';
-import { sendWelcomeEmail } from '../utils/mailer.js';
+import { sendWelcomeEmail, sendVerificationCodeEmail } from '../utils/mailer.js';
 
 const router = express.Router();
 
@@ -18,7 +18,8 @@ router.post('/login', async (req, res) => {
           message: "Successful",
           user: {
             name: user.name,
-            email: user.email
+            email: user.email,
+            verified: Boolean(user.verified)
           }
         });
       } else {
@@ -74,6 +75,56 @@ router.post('/verification', async (req, res) => {
         return res.status(400).json({ error: 'The code is incorrect.' });
     }
     return res.status(200).json({ message: 'Verification code generated', email, code });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Send verification code email (separate from verification check)
+router.post('/verification/send', async (req, res) => {
+  try {
+    const { email, name } = req.body || {};
+    if (!email) return res.status(400).json({ error: 'Email is required.' });
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ error: 'No user exists with this email.' });
+
+    const code = generateVerificationCode();
+    // Persist the code on user document (no expiry field yet)
+    await User.updateOne({ email }, { verificationToken: code, verified: false });
+
+    await sendVerificationCodeEmail({ to: email, name: name || user.name || 'there', code });
+
+    const payload = { message: 'Verification code email sent' };
+    if (process.env.NODE_ENV !== 'production') payload.code = code; // helpful for dev/testing
+    return res.status(200).json(payload);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Confirm verification code
+router.post('/verification/confirm', async (req, res) => {
+  try {
+    const { email, code } = req.body || {};
+    if (!email || !code) return res.status(400).json({ error: 'Email and code are required.' });
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ error: 'No user exists with this email.' });
+
+    if (!user.verificationToken) {
+      return res.status(400).json({ error: 'No verification code found. Please request a new code.' });
+    }
+
+    if (String(user.verificationToken) !== String(code)) {
+      return res.status(400).json({ error: 'Invalid verification code.' });
+    }
+
+    user.verified = true;
+    user.verificationToken = undefined;
+    await user.save();
+
+    return res.status(200).json({ message: 'Email verified successfully.' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
