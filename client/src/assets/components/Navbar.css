@@ -1,16 +1,47 @@
 /* General Navbar Styles */
 .navbar {
+  --nav-height: 68px;
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: transparent;
-  padding: 15px 50px;
+  gap: 18px;
+  width: min(1180px, calc(100% - 40px));
+  height: var(--nav-height);
+  padding: 10px 18px;
   color: white;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(10, 12, 18, 0.6), rgba(6, 6, 10, 0.45));
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  z-index: 2200;
+}
+
+/* Prevent the fixed navbar from covering page content by reserving space at the top.
+   We add padding-top to the body equal to the nav height + offset so content is visible.
+   This keeps the navbar floating visually while avoiding overlap. */
+:root {
+  --nav-height: 72px;
+}
+
+/* slightly smaller top padding so the navbar doesn't feel oversized on mobile */
+body {
+  padding-top: calc(var(--nav-height) + 20px);
 }
 
 .logo {
-  font-size: 35px;
-  font-weight: bold;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  order: 1;
+  margin-right: 8px;
 }
 
 .logo:hover {
@@ -18,13 +49,15 @@
 }
 
 .logo-link {
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 20px;
   text-decoration: none;
   background: linear-gradient(90deg, #ff6b00, #6b5bff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.18s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
 }
 
 .logo-link:hover {
@@ -34,7 +67,13 @@
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 32px;
+  gap: 22px;
+  flex: 1 1 auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: visible;
+  order: 2;
 }
 
 .nav-links li {
@@ -44,9 +83,16 @@
 .nav-links a {
   text-decoration: none;
   color: white;
-  font-size: 28px;
+  font-size: 16px;
   position: relative;
-  transition: color 0.3s;
+  transition: color 0.18s, transform 0.18s;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* hide the mobile-specific auth item by default (desktop) */
+.nav-links .mobile-auth {
+  display: none;
 }
 
 /* Moving underline effect */
@@ -66,11 +112,25 @@
 .nav-links a:hover {
   background: linear-gradient(90deg, #ff6b00, #6b5bff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .nav-links a:hover::after {
   transform: scaleX(1);
+}
+
+/* default: hide the hamburger on desktop */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  order: 3;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 /* Auth Buttons */
@@ -115,7 +175,9 @@
 
 .navbar-auth {
   display: flex;
-  gap: 15px;
+  gap: 12px;
+  order: 4;
+  align-items: center;
 }
 
 .navbar-user {
@@ -138,48 +200,172 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive: show hamburger at <=900px */
+@media (max-width: 900px) {
   .navbar {
-    flex-direction: row;
-    padding: 10px;
-    position: relative;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 10px;
-    text-align: center;
-  }
-
-  .nav-links.active {
-    display: flex;
-  }
-
-  .nav-links li {
-    width: 100%;
+    padding: 8px 14px;
   }
 
   .menu-toggle {
     display: flex;
+  }
+
+  /* hide full nav on small screens */
+  .nav-links {
+    display: none;
+  }
+
+  /* left align elements; push auth to far right */
+  .navbar {
+    justify-content: flex-start;
+  }
+
+  .navbar-auth {
+    margin-left: auto;
+  }
+
+  /* Position the hamburger immediately after the logo on narrow screens */
+  .menu-toggle {
+    order: 2;
+    margin-left: 8px;
+    margin-right: 0;
+  }
+
+  /* ensure logo keeps a small left margin for breathing room */
+  .logo {
+    margin-left: 6px;
+  }
+
+  /* make the hamburger sit next to logo on slightly narrower screens too */
+  .menu-toggle {
+    order: 2;
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 8px 12px;
+  }
+
+  /* repeat safe rule for slightly narrower breakpoint */
+  .navbar {
+    justify-content: flex-start;
+  }
+
+  .navbar-auth {
+    margin-left: auto;
+  }
+
+
+  /* Mobile: make menu a fullscreen overlay below the navbar */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: calc(18px + var(--nav-height) + 8px);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - (18px + var(--nav-height) + 8px));
+    background: linear-gradient(180deg, rgba(6, 6, 10, 0.98), rgba(2, 2, 6, 0.99));
+    padding: 22px 22px 28px 22px;
+    text-align: left;
+    gap: 20px;
+    overflow-y: auto;
+    z-index: 10500;
+  }
+
+  /* on mobile allow the mobile auth item to be visible inside the overlay */
+  .nav-links .mobile-auth {
+    display: block;
+  }
+
+  .nav-links.active {
+    display: flex;
+    margin-top: -6%;
+    width: 100%;
+
+  }
+
+  .nav-links li {
+    width: 100%;
+
+
+  }
+
+  .nav-links li a {
+
+    font-size: 35px;
+
+
+  }
+
+  /* Keep the same visual styling for the toggle when visible */
+  .menu-toggle {
     cursor: pointer;
-    font-size: 28px;
     color: white;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    display: inline-flex;
+  }
+
+  /* On small screens, show a compact profile/avatar inside the floating navbar
+     while still keeping the expanded auth block inside the mobile overlay. */
+  .navbar>.navbar-auth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Hide the full name inside the compact top bar to save space on small devices */
+  .navbar>.navbar-auth .profile-name {
+    display: none;
+  }
+
+  /* Slightly smaller avatar for the compact navbar */
+  .navbar>.navbar-auth .profile-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Show the auth area that is inside the overlay menu */
+  .nav-links .navbar-auth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding-top: 6px;
+    padding-right: 28px;
+    /* avoid clipping of right-side controls */
+  }
+
+  /* Make profile toggle items easier to tap inside the overlay */
+  .nav-links .profile-toggle {
+    padding: 8px 6px;
+    background: transparent;
+    border-radius: 8px;
   }
 }
 
 @media (max-width: 480px) {
   .navbar {
     padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column-reverse;
+
   }
 
   .logo {
-    font-size: 28px;
+    font-size: 35px;
   }
 
   .auth-buttons {
@@ -188,18 +374,144 @@
   }
 }
 
-.menu-toggle {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
+/* Show auth inside mobile menu and hide desktop auth on small screens */
+.mobile-auth {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar-auth {
+    display: none;
+  }
+
+  .mobile-auth {
+    display: block;
+    padding-top: 10px;
+  }
+}
+
+/* Mobile: keep compact top-level auth visible and make dropdown position-friendly */
+@media (max-width: 768px) {
+  .navbar>.navbar-auth {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Make the profile dropdown become a fixed panel on mobile so it won't get clipped
+     and will remain fully visible regardless of parent positioning. */
+  .profile-dropdown {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    top: calc(var(--nav-height) + 28px);
+    min-width: auto;
+    width: calc(100% - 24px);
+    z-index: 11000;
+    border-radius: 10px;
+    padding: 10px;
+  }
 }
 
 .menu-toggle span {
-  width: 30px;
+  width: 22px;
   height: 3px;
   background: white;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.26s ease-in-out;
+  display: block
+}
+
+/* When shown (e.g. at <=900px) it will be displayed as flex due to the media rule above */
+.menu-toggle {
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* When shown (e.g. at <=900px) it will be displayed as flex due to the media rule above */
+
+/* Profile dropdown styles */
+.profile-menu {
+  position: relative;
+}
+
+.profile-toggle {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 20px
+}
+
+.profile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-initial {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #222;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700
+}
+
+.profile-name {
+  margin-left: 10px;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.profile-dropdown {
+  position: absolute;
+  left: auto;
+  right: 12px;
+  top: 54px;
+  background: #18181c;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  padding: 16px 20px 14px 20px;
+  border-radius: 12px;
+  min-width: 170px;
+  max-width: min(90vw, 320px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  overflow: visible;
+}
+
+.profile-dropdown .dropdown-item {
+  display: block;
+  padding: 8px 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left
+}
+
+.profile-dropdown .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.03)
+}
+
+.profile-dropdown .signout {
+  border: none;
+  width: 100%;
+  text-align: left;
+  color: #ff6b6b;
+  background: transparent;
+  cursor: pointer
 }
 
 .menu-toggle.open span:nth-child(1) {
@@ -213,6 +525,7 @@
 .menu-toggle.open span:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
 }
+
 .nav-item {
   text-decoration: none;
   font-size: larger;
@@ -246,8 +559,9 @@
   padding: 2px;
   background: linear-gradient(45deg, #ff7f50, #6b5bff);
   -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
   mask-composite: exclude;
-  mask-composite: exclude;
+  -webkit-mask-composite: exclude;
   transition: opacity 0.3s ease-in-out;
   opacity: 0;
 }
@@ -262,6 +576,7 @@
   font-weight: bold;
   background: linear-gradient(45deg, #ff7f50, #6b5bff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: 0.3s ease-in-out;
 }
@@ -270,6 +585,6 @@
   background: linear-gradient(45deg, #6b5bff, #ff7f50);
   color: white;
   -webkit-background-clip: unset;
+  background-clip: unset;
   -webkit-text-fill-color: white;
 }
-

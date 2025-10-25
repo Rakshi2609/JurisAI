@@ -118,14 +118,17 @@ body {
     animation: fadeIn 2.2s ease-in-out;
 }
 
-/* List Icons */
+/* List Icons: Use SVG checkmark instead of emoji */
 .features1 ul li::before,
 .additional-info1 ul li::before {
-    content: "✔";
-    font-weight: bold;
-    background: linear-gradient(90deg, #ff6b00, #6b5bff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%236b5bff"><path d="M7.629 15.314a1.25 1.25 0 0 1-1.77 0l-3.314-3.314a1.25 1.25 0 1 1 1.77-1.77l2.429 2.429 6.429-6.429a1.25 1.25 0 1 1 1.77 1.77l-7.314 7.314z"/></svg>') no-repeat center center;
+    background-size: contain;
+    vertical-align: middle;
 }
 
 /* Ordered List Styling */

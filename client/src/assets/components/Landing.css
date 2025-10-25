@@ -1,278 +1,441 @@
-/* General Styles */
+/* =============================
+   GLOBAL STYLES
+============================= */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: radial-gradient(circle, #0d001a 10%, #000000 90%);
+    font-family: "Poppins", sans-serif;
+    background: radial-gradient(circle at top, #0d001a 0%, #000000 90%);
     color: #ffffff;
+    overflow-x: hidden;
 }
 
-/* Hero Section */
+section {
+    position: relative;
+    z-index: 1;
+}
+
+/* =============================
+   HERO SECTION
+============================= */
 .hero {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 80px;
+    padding: 80px 60px;
     min-height: 100vh;
+    backdrop-filter: blur(4px);
     position: relative;
-    z-index: 2;
-    margin-top: -10px;
+    gap: 10px;
+    /* reduce gap between content and bot */
+    animation: fadeUp 1s ease-in-out forwards;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.15), rgba(107, 91, 255, 0.15));
+    filter: blur(120px);
+    z-index: 0;
 }
 
 .hero-content {
-    max-width: 550px;
-    margin-left: 25px;
+    max-width: 600px;
+    z-index: 2;
+    text-align: left;
+    animation: slideFade 1.2s ease forwards;
 }
 
 .hero-content h1 {
-    font-size: 60px;
-    font-weight: bold;
+    font-size: 3.5rem;
+    font-weight: 800;
     background: linear-gradient(90deg, #ff6b00, #6b5bff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin: 0 0 10px;
-    text-align: left;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    line-height: 1.2;
 }
 
 .hero-content p {
-    font-size: 18px;
-    line-height: 1.4;
-    color: #bbb;
-    margin-top: 8px;
+    font-size: 1.1rem;
+    color: #bcbcbc;
+    line-height: 1.7;
+    margin-bottom: 25px;
 }
 
-/* Call-to-Action Buttons */
 .cta-buttons {
-    margin-top: 20px;
     display: flex;
-    gap: 15px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .cta-btn {
-    padding: 12px 24px;
-    border-radius: 8px;
+    padding: 0.6rem 1.3rem;
+    border-radius: 7px;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 0.95rem;
+    font-weight: 600;
     text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(.68, -0.55, .27, 1.55), box-shadow 0.3s cubic-bezier(.68, -0.55, .27, 1.55), background 0.3s;
+    letter-spacing: 0.4px;
+    width: fit-content;
+    position: relative;
+    box-shadow: 0 2px 12px rgba(107, 91, 255, 0.12);
+    animation: ctaPopIn 0.8s cubic-bezier(.68, -0.55, .27, 1.55);
 }
 
 .cta-btn.primary {
     background: linear-gradient(90deg, #ff6b00, #6b5bff);
     color: #ffffff;
+    /* box-shadow: 0 0 15px rgba(255, 107, 0, 0.5); */
 }
 
 .cta-btn.primary:hover {
-    background: linear-gradient(90deg, #6b5bff, #ff6b00);
-    transform: scale(1.05);
+    /* background: linear-gradient(90deg, #6b5bff, #ff6b00); */
+    transform: translateY(-4px) scale(1.05);
+    /* box-shadow: 0 0 25px rgba(107, 91, 255, 0.8); */
 }
 
 .cta-btn.secondary {
-    background-color: transparent;
     border: 2px solid #ffffff;
+    background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
+    transition: all 0.4s ease;
+
 }
 
 .cta-btn.secondary:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px) scale(1.05);
 }
 
 /* Hero Image */
 .hero-image img {
-    width: 400px;
+    width: 440px;
     max-width: 100%;
-    margin-right: 55px;
-    mix-blend-mode: multiply;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(107, 91, 255, 0.4));
+    z-index: 2;
 }
 
-/* Sections */
+/* If using embedded Spline canvas */
+.hero-image {
+    width: 340px;
+    max-width: 100%;
+    height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-right: 40px;
+}
+
+.hero-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* =============================
+   FEATURES & SECTIONS
+============================= */
 .features,
 .how-it-works,
 .testimonials,
 .cta-section {
     text-align: center;
-    padding: 60px 80px;
+    padding: 100px 80px;
+    animation: fadeUp 1.2s ease forwards;
 }
 
 .features h2,
 .how-it-works h2,
-.testimonials h2,
-.cta-section h2 {
-    font-size: 38px;
+.testimonials h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
     background: linear-gradient(90deg, #ff6b00, #6b5bff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
 }
 
-/* Grid Layouts */
+.ques {
+    color: white;
+}
+
 .features-grid,
 .steps {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
     margin-top: 30px;
+    justify-items: center;
 }
 
-/* Feature Items with Liquid Effect */
 .feature-item,
 .step,
 .testimonial-card {
-    position: relative;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 30px;
     overflow: hidden;
-    border: 1px solid white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
-    flex: 1;
-    z-index: 1;
-    transition: background 0.6s ease, transform 0.3s ease;
-}
-
-/* Liquid Effect */
-.feature-item::before,
-.step::before,
-.testimonial-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 107, 0, 0.4), rgba(107, 91, 255, 0.4));
-    transform: translateX(-100%) rotate(25deg);
-    filter: blur(40px);
-    transition: transform 1s ease;
-    z-index: -1;
-}
-
-.feature-item:hover::before,
-.step:hover::before,
-.testimonial-card:hover::before {
-    transform: translateX(0) rotate(0deg);
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+    /* box-shadow: 0 0 20px rgba(255, 255, 255, 0.05); */
+    position: relative;
 }
 
 .feature-item:hover,
 .step:hover,
 .testimonial-card:hover {
-    background: linear-gradient(90deg, #ff6b00, #6b5bff);
-    transform: scale(1.03);
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.25), rgba(107, 91, 255, 0.25));
+    transform: translateY(-6px) scale(1.03);
+
 }
 
-/* Step Text */
+.feature-item h3,
 .step h3 {
-    font-size: 20px;
-    color: white;
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 12px;
 }
 
+.feature-item p,
 .step p,
 .testimonial-card p {
-    font-size: 16px;
-    color: #ddd;
+    color: #cfcfcf;
+    font-size: 1rem;
+    line-height: 1.7;
 }
 
-/* Testimonials */
 .testimonial-card {
-    max-width: 450px;
-    margin: 15px auto;
+    max-width: 480px;
+    margin: 20px auto;
 }
 
 .testimonial-card span {
-    font-size: 15px;
-    color: white;
+    font-size: 0.9rem;
     font-weight: bold;
-    display: block;
     margin-top: 8px;
+    color: #ffb366;
 }
 
-/* Call to Action Section */
+/* =============================
+   CTA SECTION
+============================= */
 .cta-section {
     background: linear-gradient(90deg, #ff6b00, #6b5bff);
-    border-radius: 10px;
-    margin: 40px auto;
-    max-width: 75%;
-    padding: 40px;
+    border-radius: 18px;
+    margin: 70px auto;
+    max-width: 85%;
+    padding: 70px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* box-shadow: 0 0 50px rgba(107, 91, 255, 0.3); */
+}
+
+.ques {
+    color: #ffffff;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
 .cta-section p {
-    font-size: 18px;
+    font-size: 1.1rem;
     color: #ffffff;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
 }
 
 .cta-section .cta-btn {
     background: #ffffff;
-    color: #ff6b00;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
+    color: #6b5bff;
+    font-weight: 700;
+    padding: 14px 34px;
+    /* border-radius: 10px; */
+    transition: all 0.3s ease;
 }
 
 .cta-section .cta-btn:hover {
     background: #ff6b00;
     color: #ffffff;
+    transform: scale(1.05);
 }
 
-/* Responsive Design */
-@media (max-width: 900px) {
+/* =============================
+   ANIMATIONS
+============================= */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideFade {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* =============================
+   RESPONSIVE DESIGN
+============================= */
+
+/* --- Tablets --- */
+@media (max-width: 1024px) {
     .hero {
         flex-direction: column;
         text-align: center;
-        padding: 40px 20px;
+        padding: 80px 40px;
     }
 
     .hero-content {
-        max-width: 100%;
-        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .hero-image {
+        margin-top: 40px;
+    }
+
+    .features h2,
+    .how-it-works h2 {
+        font-size: 2rem;
+    }
+}
+
+/* --- Large Mobile --- */
+@media (max-width: 768px) {
+    .hero {
+        padding: 70px 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
     }
 
     .cta-buttons {
-        justify-content: center;
         flex-direction: column;
         align-items: center;
     }
 
-    .cta-btn {
-        width: 100%;
-        max-width: 280px;
+    .features,
+    .how-it-works {
+        padding: 80px 25px;
     }
 
-    .hero-image img {
-        width: 300px;
+    .features-grid {
+        grid-template-columns: 1fr;
     }
 
-    .features-grid,
-    .steps {
-        flex-direction: column;
+    .feature-item {
+        max-width: 420px;
+        margin: 0 auto;
     }
 
-    .feature-item,
-    .step {
-        margin-bottom: 15px;
-    }
-
-    .testimonials,
     .cta-section {
-        padding: 40px 20px;
-    }
 
-    .testimonial-card {
-        width: 90%;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+
+        padding: 60px 30px;
     }
 }
 
+/* --- Small Mobile --- */
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.9rem;
+    }
 
-.cta-btn {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.3s ease;
+    .hero p {
+        font-size: 0.95rem;
+    }
+
+    .features h2,
+    .how-it-works h2 {
+        font-size: 1.7rem;
+    }
+
+    .feature-item h3 {
+        font-size: 1.2rem;
+    }
+
+    .feature-item p {
+        font-size: 0.9rem;
+    }
+
+    .cta-section {
+        padding: 50px 20px;
+    }
+
+    .cta-section p {
+        font-size: 1rem;
+    }
+
+
 }
+
+@keyframes ctaPopIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(30px);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.08) translateY(-2px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+

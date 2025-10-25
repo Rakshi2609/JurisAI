@@ -54,7 +54,7 @@ const VerifyEmail = () => {
           u.verified = true;
           localStorage.setItem('user', JSON.stringify(u));
         }
-      } catch {}
+      } catch { }
     } catch (err) {
       const msg = err?.response?.data?.error || err?.message || 'Verification failed';
       setVerifyError(msg);
@@ -94,7 +94,7 @@ const VerifyEmail = () => {
           <button type="submit" className="btn-primary" disabled={sending || !email}>
             {sending ? 'Sending…' : 'Send code'}
           </button>
-          {sendMsg && <div className="msg success" role="status">{sendMsg}</div>}
+          {sendMsg && <div className="msg success" role="status">{`Check your Inbox or Spam folder for the Verification code `}</div>}
           {sendError && <div className="msg error" role="alert">{sendError}</div>}
           {devCode && (
             <div className="dev-hint">Dev code: <code>{devCode}</code></div>
@@ -109,7 +109,7 @@ const VerifyEmail = () => {
               pattern="[0-9]*"
               maxLength={6}
               value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0,6))}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
               placeholder="123456"
               required
               disabled={verifying}

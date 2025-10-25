@@ -1,12 +1,14 @@
 import React from 'react';
 import './Landing.css';
 import { Link } from 'react-router-dom';
+import SplineScene from './SplineScene';
 
 const Landing = () => {
   return (
     <>
 
-      <section className="hero">
+
+      <section className="hero" style={{ position: 'relative', zIndex: 1 }}>
         <div className="hero-content">
           <h1>Chat Your Way to Cyber Safety <br /> Smart, Instant & Reliable</h1>
           <p>
@@ -14,7 +16,7 @@ const Landing = () => {
             Get expert advice and actions, right when you need them.
           </p>
           <div className="cta-buttons">
-            <Link to="/register" className="cta-btn primary">Chat Now</Link>
+            <Link to="/JurisBot" className="cta-btn primary">Chat Now</Link>
 
 
             <Link to="/contact" className="cta-btn secondary">Connet With US</Link>
@@ -22,7 +24,9 @@ const Landing = () => {
           </div>
         </div>
         <div className="hero-image">
-          <img src="/hacker2.jpg" alt="Cyber Chatbot Illustration" />
+          <div style={{ width: 440, maxWidth: '100%', height: 440, maxHeight: '100%' }}>
+            <SplineScene className="hero-canvas" interactive={true} />
+          </div>
         </div>
       </section>
 
@@ -67,9 +71,9 @@ const Landing = () => {
 
 
       <section className="cta-section">
-        <h2>Got a Cyber Question? We've Got Your Back.</h2>
+        <h2 className='ques'>Got a Cyber Question? We've Got Your Back.</h2>
         <p>Start chatting now and take control of your digital safety.</p>
-        <Link to="/register" className="cta-btn primary">Talk to the BOT</Link>
+        <Link to="/JurisBot" className="cta-btn primary">Talk to the BOT</Link>
       </section>
     </>
   );

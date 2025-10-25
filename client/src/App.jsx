@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import Particles from "./assets/components/Particles";
 import Home from "./assets/components/Home";
 import Signup from "./assets/components/Signup";
 import Login from "./assets/components/Login";
@@ -12,6 +13,7 @@ import Navbar from "./assets/components/Navbar";
 import JurisBot from "./assets/components/JurisBot";
 import AboutFooter from "./assets/components/Footer";
 import VerifyEmail from "./assets/components/VerifyEmail";
+import Profile from "./assets/components/Profile";
 
 function App() {
   const location = useLocation();
@@ -23,30 +25,38 @@ function App() {
   const hiddenFooterRoutes = ["/login", "/register", "/JurisBot"];
 
   return (
-    <div>
-      {!hiddenNavbarRoutes.includes(location.pathname) && <Navbar />}
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/register" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/business" element={<Business />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<Contact />} />
-  <Route path="/verify" element={<VerifyEmail />} />
+    <>
+      {/* Custom canvas particles background (fixed) */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0 }} aria-hidden>
+        <Particles />
+      </div>
 
-        {/* Protected Route for JurisBot */}
-        <Route
-          path="/JurisBot"
-          element={
-            isLoggedIn ? (isVerified ? <JurisBot /> : <Navigate to="/verify" />) : <Navigate to="/login" />
-          }
-        />
-      </Routes>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {!hiddenNavbarRoutes.includes(location.pathname) && <Navbar />}
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/register" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/business" element={<Business />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/verify" element={<VerifyEmail />} />
+          <Route path="/profile" element={<Profile />} />
 
-      {!hiddenFooterRoutes.includes(location.pathname) && <AboutFooter />}
-    </div>
+          {/* Protected Route for JurisBot */}
+          <Route
+            path="/JurisBot"
+            element={
+              isLoggedIn ? (isVerified ? <JurisBot /> : <Navigate to="/verify" />) : <Navigate to="/login" />
+            }
+          />
+        </Routes>
+
+        {!hiddenFooterRoutes.includes(location.pathname) && <AboutFooter />}
+      </div>
+    </>
   );
 }
 
