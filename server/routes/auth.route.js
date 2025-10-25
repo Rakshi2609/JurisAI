@@ -1,7 +1,7 @@
 import express from 'express';
 import User from '../models/ourmap.js';
 import { generateVerificationCode } from '../utils/verification.js';
-import { sendWelcomeEmail, sendVerificationCodeEmail } from '../utils/mailer.js';
+import mailer, { sendWelcomeEmail, sendVerificationCodeEmail } from '../utils/mailer.js';
 
 const router = express.Router();
 
@@ -139,6 +139,41 @@ router.post('/send-welcome', async (req, res) => {
     if (!email) return res.status(400).json({ error: 'Email is required.' });
     await sendWelcomeEmail({ to: email, name: name || 'there' });
     return res.status(200).json({ message: 'Welcome email sent' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Contact form: forwards message to site admin and optionally acknowledges the sender
+router.post('/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body || {};
+    if (!email || !message) return res.status(400).json({ error: 'Email and message are required.' });
+
+    const adminTo = process.env.MAIL_TO || process.env.MAIL_FROM || process.env.SMTP_USER;
+    if (!adminTo) return res.status(500).json({ error: 'Admin email is not configured on server.' });
+
+    const mailSubject = `Contact form: ${subject || 'No subject'}`;
+    const text = `From: ${name || 'Anonymous'} <${email}>\n\n${message}`;
+    const html = `<p><strong>From:</strong> ${name || 'Anonymous'} &lt;${email}&gt;</p>
+      <p><strong>Subject:</strong> ${subject || 'No subject'}</p>
+      <hr/>
+      <p>${message.replace(/\n/g, '<br/>')}</p>`;
+
+    // send to admin
+    await mailer.sendMail({ to: adminTo, subject: mailSubject, text, html });
+
+    // optional: acknowledgement to sender (non-blocking)
+    try {
+      const ackSubject = 'Thanks for contacting JurisAI';
+      const ackHtml = `<p>Hi ${name || ''},</p><p>Thanks for reaching out — we received your message and will get back to you shortly.</p><hr/><p><strong>Your message:</strong></p><p>${message.replace(/\n/g, '<br/>')}</p><p>— JurisAI team</p>`;
+      await mailer.sendMail({ to: email, subject: ackSubject, html: ackHtml });
+    } catch (err) {
+      // don't fail the request if acknowledgement fails
+      console.warn('Failed to send acknowledgement email', err.message || err);
+    }
+
+    return res.status(200).json({ message: 'Message sent successfully.' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
