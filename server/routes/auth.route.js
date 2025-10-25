@@ -2,6 +2,7 @@ import express from 'express';
 import User from '../models/ourmap.js';
 import { generateVerificationCode } from '../utils/verification.js';
 import mailer, { sendWelcomeEmail, sendVerificationCodeEmail } from '../utils/mailer.js';
+import contactAckTemplate from '../utils/templates/contactAck.js';
 
 const router = express.Router();
 
@@ -165,9 +166,9 @@ router.post('/contact', async (req, res) => {
 
     // optional: acknowledgement to sender (non-blocking)
     try {
-      const ackSubject = 'Thanks for contacting JurisAI';
-      const ackHtml = `<p>Hi ${name || ''},</p><p>Thanks for reaching out — we received your message and will get back to you shortly.</p><hr/><p><strong>Your message:</strong></p><p>${message.replace(/\n/g, '<br/>')}</p><p>— JurisAI team</p>`;
-      await mailer.sendMail({ to: email, subject: ackSubject, html: ackHtml });
+  const ackSubject = 'Thanks for contacting JurisAI';
+  const ackHtml = contactAckTemplate({ name, message });
+  await mailer.sendMail({ to: email, subject: ackSubject, html: ackHtml });
     } catch (err) {
       // don't fail the request if acknowledgement fails
       console.warn('Failed to send acknowledgement email', err.message || err);
