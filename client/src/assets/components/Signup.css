@@ -1,5 +1,6 @@
 /* Full-screen background with the image */
 .signup-container {
+  margin-top: -92px;
   height: 100vh;
   width: 100vw;
   background: url('login.png') repeat center center/cover;
@@ -7,6 +8,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #330000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 400'%3E%3Cdefs%3E%3CradialGradient id='a' cx='396' cy='281' r='514' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23D18'/%3E%3Cstop offset='1' stop-color='%23330000'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='400' y1='148' x2='400' y2='333'%3E%3Cstop offset='0' stop-color='%23FA3' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23FA3' stop-opacity='0.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='800' height='400'/%3E%3Cg fill-opacity='0.4'%3E%3Ccircle fill='url(%23b)' cx='267.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='532.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='400' cy='30' r='300'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .PAR {
@@ -50,25 +55,30 @@
 }
 
 /* Submit button with hover effect */
-.submit-btn {
+/* Submit button with arrow */
+.submit-btnn {
   width: 100px;
-  height: 60px;
-  background: transparent;
+  height: 50px;
+  background: linear-gradient(45deg, #800080, #6324bc, #4b0082);
+
   color: white;
-  border: 2px solid white;
+  border: none;
   border-radius: 20px;
   font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease-in-out;
 }
 
-.submit-btn:hover {
-  background: #4caf50;
+.submit-btnn:hover {
+  background: linear-gradient(45deg, #800080, #6324bc, #4b0082);
+  /* Purple Gradient */
   color: white;
-  border: 2px solid #4caf50;
+  border: none;
+  transform: scale(1.05);
+  /* Slight Growth */
 }
 
 /* Smooth transitions */
@@ -87,16 +97,24 @@ input {
     width: 90%;
   }
 
-  .submit-btn {
-    width: 50px;
+  .submit-btnn {
+    width: 180px;
     height: 50px;
     font-size: 20px;
   }
 }
 
 /* Password visibility toggle (non-intrusive) */
-.password-wrapper { position: relative; width: 100%; }
-.password-input { width: 100%; padding-right: 44px; }
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 44px;
+}
+
 .toggle-password {
   position: absolute;
   top: 50%;
@@ -113,7 +131,11 @@ input {
   cursor: pointer;
   border-radius: 50%;
 }
-.toggle-password:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
+
+.toggle-password:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
 
 .error-text {
   width: 100%;

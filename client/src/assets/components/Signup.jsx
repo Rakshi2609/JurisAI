@@ -172,7 +172,7 @@ const Signup = () => {
 
         {error && <p className="error-text" role="alert">{error}</p>}
 
-        <button type="submit" className="submit-btn">Sign Up</button>
+        <button type="submit" className="submit-btnn">Sign Up</button>
 
         <p className="ask">Already have an account? <Link to="/login">Log in</Link></p>
       </form>

@@ -15,18 +15,21 @@
     "fuse.js": "^7.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.4.0"
+    "react-router-dom": "^7.4.0",
+    "react-tsparticles": "^2.8.0",
+    "tsparticles": "^2.8.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@splinetool/loader": "^1.0.12",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.19.0",
-    "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "three": "0.150.0",
     "vite": "^6.1.0"
   }
 }

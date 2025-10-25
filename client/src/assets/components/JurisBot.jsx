@@ -15,7 +15,7 @@ const JurisBot = () => {
                 const response = await fetch("/legalDataset.json");
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
-                console.log("✅ JSON Loaded:", data);
+               // console.log("✅ JSON Loaded:", data);
                 setLegalDataset(data);
             } catch (error) {
                 console.error("❌ Failed to load JSON:", error);

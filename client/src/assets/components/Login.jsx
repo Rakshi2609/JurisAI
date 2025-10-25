@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";  // Import the CSS file for styling
+import { avatarUrls, getAvatarUrlByName } from '../icons/avatars';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,8 +16,15 @@ const Login = () => {
       const res = await axios.post("/api/login", { email, password });
 
       if (res.data.message === "Successful") {
-        // Store user data in localStorage
-        const user = res.data.user || {};
+        // Store user data in localStorage (map avatar name/index to local URL)
+        const serverUser = res.data.user || {};
+        let avatarUrl = null;
+        if (serverUser.avatar && typeof serverUser.avatar === 'string') {
+          avatarUrl = serverUser.avatar.includes('/') ? serverUser.avatar : getAvatarUrlByName(serverUser.avatar) || null;
+        }
+        if (!avatarUrl && typeof serverUser.avatarIndex === 'number') avatarUrl = avatarUrls[serverUser.avatarIndex] || null;
+
+        const user = { ...serverUser, avatar: avatarUrl, avatarName: serverUser.avatar };
         localStorage.setItem("user", JSON.stringify(user));
         // If not verified, go to verify page first
         if (!user.verified) {

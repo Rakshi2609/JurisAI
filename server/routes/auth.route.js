@@ -13,13 +13,15 @@ router.post('/login', async (req, res) => {
 
     if (user) {
       if (user.password === password) {
-        // Return message and user data as an object
+        // Return message and user data as an object (include avatar fields)
         res.json({
           message: "Successful",
           user: {
             name: user.name,
             email: user.email,
-            verified: Boolean(user.verified)
+            verified: Boolean(user.verified),
+            avatar: user.avatar || null, // stored as filename on server
+            avatarIndex: typeof user.avatarIndex === 'number' ? user.avatarIndex : null
           }
         });
       } else {
@@ -49,7 +51,7 @@ router.post('/register', async (req, res) => {
     // Keep status 200 to match current frontend expectation
     return res.status(200).json({
       message: 'Signup successful',
-      user: { name: user.name, email: user.email }
+      user: { name: user.name, email: user.email, avatar: user.avatar || null, avatarIndex: user.avatarIndex || null }
     });
   } catch (err) {
     return res.status(400).json({ error: err.message });
@@ -59,7 +61,7 @@ router.post('/register', async (req, res) => {
 // Generate a 6-digit verification code
 router.post('/verification', async (req, res) => {
   try {
-    const { email, verificationToken} = req.body;
+    const { email, verificationToken } = req.body;
     if (!email) {
       return res.status(400).json({ error: 'Email is required.' });
     }
@@ -69,10 +71,10 @@ router.post('/verification', async (req, res) => {
     if (!verificationToken || verificationToken !== code) {
       return res.status(400).json({ error: 'Invalid verification code.' });
     }
-    if(verificationToken === code){
+    if (verificationToken === code) {
       await User.updateOne({ email }, { verified: true });
-    }else{
-        return res.status(400).json({ error: 'The code is incorrect.' });
+    } else {
+      return res.status(400).json({ error: 'The code is incorrect.' });
     }
     return res.status(200).json({ message: 'Verification code generated', email, code });
   } catch (err) {
@@ -155,3 +157,40 @@ router.post('/send-welcome', async (req, res) => {
 //    return res.status(200).json({ message: 'Verification email sent successfully.' });
 // });
 export default router;
+
+// Update user profile (name/avatar)
+// Accepts { email, name, avatar, avatarIndex }
+router.patch('/user', async (req, res) => {
+  try {
+    const { email, name, avatar, avatarIndex } = req.body || {};
+    if (!email) return res.status(400).json({ error: 'Email is required to update profile.' });
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ error: 'No user found with this email.' });
+
+    const updates = {};
+    if (typeof name === 'string') updates.name = name;
+    if (typeof avatar === 'string') updates.avatar = avatar;
+    if (typeof avatarIndex === 'number') updates.avatarIndex = avatarIndex;
+
+    // Only update if there's something to change
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: 'No valid fields to update.' });
+    }
+
+    await User.updateOne({ email }, { $set: updates });
+    const updated = await User.findOne({ email }).lean();
+
+    // Return sanitized user object
+    const payload = {
+      name: updated.name,
+      email: updated.email,
+      verified: Boolean(updated.verified),
+      avatar: updated.avatar || null,
+      avatarIndex: typeof updated.avatarIndex === 'number' ? updated.avatarIndex : null
+    };
+    return res.status(200).json({ message: 'Profile updated', user: payload });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});

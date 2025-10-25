@@ -1,0 +1,126 @@
+.profile-page {
+    padding: 40px 24px;
+    color: white;
+}
+
+.profile-form {
+    max-width: 420px;
+    margin: 12px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.profile-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.profile-form input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: white
+}
+
+.avatar-picker .label {
+    font-weight: 600;
+    margin-bottom: 8px
+}
+
+.avatars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 10px 6px;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+}
+
+/* grid layout — no horizontal scrollbar needed */
+
+.avatar-btn {
+    border: none;
+    background: rgba(255, 255, 255, 0.02);
+    width: 100%;
+    max-width: 96px;
+    height: 96px;
+    padding: 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    position: relative;
+    justify-self: center;
+}
+
+.avatar-btn img {
+    width: 56px;
+    height: 56px;
+    display: block;
+    border-radius: 10px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45)) saturate(1.15) contrast(1.05);
+}
+
+.avatar-btn.selected {
+    transform: scale(1.06);
+    box-shadow: 0 12px 36px rgba(107, 91, 255, 0.16), 0 6px 18px rgba(0, 0, 0, 0.6);
+    outline: none;
+}
+
+.avatar-btn.selected::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    z-index: -1;
+    filter: blur(6px);
+    opacity: 0.35;
+}
+
+.avatar-btn:focus {
+    box-shadow: 0 0 0 3px rgba(107, 91, 255, 0.12), 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* make the avatars container snap to items so partially-visible tiles become fully visible when tabbed/selected */
+.avatar-btn:hover {
+    transform: translateY(-6px) scale(1.02);
+}
+
+/* responsive: switch to 2 columns on narrow screens */
+@media (max-width: 520px) {
+    .avatars {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (min-width: 900px) {
+    .avatars {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end
+}
+
+.save-btn {
+    background: linear-gradient(90deg, #ff6b00, #6b5bff);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer
+}

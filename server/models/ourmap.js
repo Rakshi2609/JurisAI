@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
   verificationToken: {
     type: String
   },
+  avatar: {
+    type: String,
+    default: null
+  },
+  avatarIndex: {
+    type: Number,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now
