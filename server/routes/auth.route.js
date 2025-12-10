@@ -10,6 +10,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    console.log(`Login attempt for email: ${email}`);
     const user = await User.findOne({ email });
 
     if (user) {
@@ -166,9 +167,9 @@ router.post('/contact', async (req, res) => {
 
     // optional: acknowledgement to sender (non-blocking)
     try {
-  const ackSubject = 'Thanks for contacting JurisAI';
-  const ackHtml = contactAckTemplate({ name, message });
-  await mailer.sendMail({ to: email, subject: ackSubject, html: ackHtml });
+      const ackSubject = 'Thanks for contacting JurisAI';
+      const ackHtml = contactAckTemplate({ name, message });
+      await mailer.sendMail({ to: email, subject: ackSubject, html: ackHtml });
     } catch (err) {
       // don't fail the request if acknowledgement fails
       console.warn('Failed to send acknowledgement email', err.message || err);
@@ -192,7 +193,6 @@ router.post('/contact', async (req, res) => {
 
 //    return res.status(200).json({ message: 'Verification email sent successfully.' });
 // });
-export default router;
 
 // Update user profile (name/avatar)
 // Accepts { email, name, avatar, avatarIndex }
@@ -230,3 +230,5 @@ router.patch('/user', async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 });
+
+export default router;

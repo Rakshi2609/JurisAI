@@ -96,9 +96,9 @@ const VerifyEmail = () => {
           </button>
           {sendMsg && <div className="msg success" role="status">{`Check your Inbox or Spam folder for the Verification code `}</div>}
           {sendError && <div className="msg error" role="alert">{sendError}</div>}
-          {devCode && (
-            <div className="dev-hint">Dev code: <code>{devCode}</code></div>
-          )}
+          {/* {devCode && (
+            <div className="dev-hint">{console.log(devCode)}</div>
+          )} */}
         </form>
 
         <form className="verify-form" onSubmit={handleVerify}>

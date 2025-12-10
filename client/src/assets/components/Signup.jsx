@@ -51,6 +51,7 @@ const Signup = () => {
           onChange={(e) => setName(e.target.value)}
           required
           className="input-field"
+          autoComplete="name"
         />
 
         <input
@@ -60,9 +61,10 @@ const Signup = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
           className="input-field"
+          autoComplete="email"
         />
 
-        <div className="input-field password-wrapper">
+        <div className="password-wrapper">
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
@@ -71,6 +73,7 @@ const Signup = () => {
             required
             className="password-input"
             minLength={6}
+            autoComplete="new-password"
           />
           <button
             type="button"
@@ -116,7 +119,7 @@ const Signup = () => {
           </button>
         </div>
 
-        <div className="input-field password-wrapper">
+        <div className="password-wrapper">
           <input
             type={showConfirmPassword ? "text" : "password"}
             placeholder="Confirm Password"
@@ -125,6 +128,7 @@ const Signup = () => {
             required
             className="password-input"
             minLength={6}
+            autoComplete="new-password"
           />
           <button
             type="button"

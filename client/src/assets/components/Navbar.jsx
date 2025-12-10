@@ -86,19 +86,19 @@ const Navbar = () => {
         <li><Link to="/contact" className="nav-item" onClick={() => setMenuOpen(false)}>Contact</Link></li>
 
         {/* Mobile auth buttons */}
-        {/* <li className="mobile-auth">
-          {user ? (
-            <>
-              <Link to="/profile" className="nav-item" onClick={() => setMenuOpen(false)}>Profile</Link>
-              <button className="logout-btn" onClick={handleLogout}>Logout</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="login nav-item" onClick={() => setMenuOpen(false)}>Login</Link>
-              <Link to="/register" className="sign-up nav-item" onClick={() => setMenuOpen(false)}>Signup</Link>
-            </>
-          )}
-        </li> */}
+        {!user && (
+          <div className="mobile-auth-buttons">
+            <Link to="/login" className="mobile-login nav-item" onClick={() => setMenuOpen(false)}>Login</Link>
+            <Link to="/register" className="mobile-signup nav-item" onClick={() => setMenuOpen(false)}>Signup</Link>
+          </div>
+        )}
+
+        {user && (
+          <div className="mobile-auth-buttons">
+            <Link to="/profile" className="nav-item" onClick={() => setMenuOpen(false)}>Profile</Link>
+            <button className="mobile-logout" onClick={() => { handleLogout(); setMenuOpen(false); }}>Logout</button>
+          </div>
+        )}
       </ul>
 
       {/* Desktop Auth */}
