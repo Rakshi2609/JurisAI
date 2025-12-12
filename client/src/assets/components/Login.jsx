@@ -51,9 +51,10 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="input-field"  // Standardized class name
+          className="input-field"
+          autoComplete="email"
         />
-        <div className="input-field password-wrapper">
+        <div className="password-wrapper">
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
@@ -61,6 +62,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
             className="password-input"
+            autoComplete="current-password"
           />
           <button
             type="button"
