@@ -1,103 +1,231 @@
 # JurisAI — Legal Q&A Chatbot (Full‑stack project)
 
-Concise elevator pitch
-----------------------
+## 🎯 Elevator Pitch
 
 JurisAI is a full‑stack web application that helps users explore legal concepts with a friendly chatbot UI backed by a searchable knowledge base. It demonstrates end‑to‑end product skills: React (Vite) frontend, Express + Mongoose backend, email workflows (nodemailer), developer-friendly dev scripts, and a production deployment pipeline (Vercel). This repo is optimized to show practical engineering tradeoffs, testing hooks, and a clean developer experience — everything recruiters typically look for.
 
-Highlights recruiters care about
---------------------------------
+## ✨ Highlights Recruiters Care About
 
-- Role & contributions: Designed and implemented the UI/UX for signup/login/verification flows, built the protected JurisBot experience, implemented backend APIs (auth, verification, contact), and integrated email delivery for onboarding and contact forms.
-- Tech breadth: React (modern hooks), Vite, Node.js/Express, Mongoose, Fuse.js search, Nodemailer for transactional email, Vercel deployment.
-- Production readiness: Environment-driven configuration, serverless-compatible Express entrypoint, dev scripts, and a clear `vercel.json` for monorepo deployment.
-- Security awareness: Clear TODOs for password hashing, env-based secrets, and input sanitization.
+- **Role & contributions**: Designed and implemented the UI/UX for signup/login/verification flows, built the protected JurisBot experience, implemented backend APIs (auth, verification, contact), and integrated email delivery for onboarding and contact forms.
+- **Tech breadth**: React (modern hooks), Vite, Node.js/Express, Mongoose, Fuse.js search, Nodemailer for transactional email, Vercel deployment.
+- **Production readiness**: Environment-driven configuration, serverless-compatible Express entrypoint, dev scripts, and a clear `vercel.json` for monorepo deployment.
+- **Security awareness**: Clear TODOs for password hashing, env-based secrets, and input sanitization.
 
-Key features (what to demo)
----------------------------
+## 🚀 Key Features
 
-- Signup / Login with a verification flow (email code) and protected JurisBot route.
-- JurisBot: queryable knowledge base using Fuse.js; responses show referenced laws and scenarios.
-- Transactional emails: welcome email + verification code and contact form forwarding (admin ack).
-- Dev ergonomics: run locally with Vite + simple server bootstrap, or run everything via `vercel dev`.
-- Transactional emails: welcome email + verification code and contact form forwarding (admin ack).
-- Dev ergonomics: run locally with Vite + simple server bootstrap.
+- ✅ Signup / Login with email verification flow (6-digit code)
+- 🤖 JurisBot: Intelligent legal Q&A using Fuse.js search
+- 📧 Transactional emails: Welcome messages, verification codes, contact form acknowledgments
+- 🔒 Protected routes requiring email verification
+- 👤 User profiles with customizable avatars
+- 📱 Responsive UI with Bootstrap 5
+- ⚡ Fast development with Vite HMR
 
-Tech stack (short)
-------------------
+## 🛠 Tech Stack
 
-- Frontend: React 19, Vite 6, React Router, Bootstrap 5
-- Backend: Node.js, Express 4, Mongoose 8
-- Search: Fuse.js
-- Email: Nodemailer
-- Deploy: Vercel (monorepo)
+**Frontend**
+- React 19 + Vite 6
+- React Router v7
+- Axios for API calls
+- Bootstrap 5
+- React TSParticles
 
-Repository layout
------------------
+**Backend**
+- Node.js + Express 4
+- MongoDB + Mongoose 8
+- Fuse.js for fuzzy search
+- Nodemailer for emails
+- dotenv for configuration
 
-- `client/` — React app (Vite)
-  - `public/legalDataset.json` — knowledge base
-  - `src/assets/components/` — pages and UI components (Signup, Login, Verify, JurisBot, Contact)
-- `server/` — Express API, Mongoose models, utils (mailer, templates)
-  - `utils/mailer.js` — Nodemailer wrapper and templates
-  - `routes/auth.route.js` — auth, verification, contact, welcome endpoints
-- `vercel.json` — monorepo routing & build config
+**Deployment**
+- Vercel (monorepo)
 
-Quick, recruiter-friendly demo (local)
-------------------------------------
+## 📁 Repository Layout
 
-This README now provides local-only commands suitable for an interview/demo on your machine (Windows PowerShell). The steps below avoid any global tooling so a reviewer can run the project locally.
-
-1) Install dependencies
-
-```powershell
-# From repo root — install client and server deps
-cd client; npm install; cd ..
-cd server; npm install; cd ..
+```
+JurisAI/
+├── client/               # React frontend
+│   ├── public/
+│   │   └── legalDataset.json    # Legal knowledge base
+│   ├── src/
+│   │   ├── assets/components/   # All React components
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── .env.example      # Client env template
+│   └── package.json
+├── server/               # Express backend
+│   ├── models/           # Mongoose schemas
+│   ├── routes/           # API routes
+│   ├── utils/            # Email utilities & templates
+│   ├── .env.example      # Server env template
+│   ├── .env              # Your local config (gitignored)
+│   ├── dev.js            # Development entry point
+│   └── package.json
+└── vercel.json           # Deployment configuration
 ```
 
-2) Prepare environment variables
+## 🚀 Quick Start (Local Development)
 
-Create a `server/.env` file (do not commit it) with at least the following entries:
+### Prerequisites
+- Node.js 18+ and npm
+- MongoDB (local or Atlas)
+- Gmail account (for SMTP) or other email service
 
-```powershell
-# server/.env (example)
-MONGODB_URI=mongodb+srv://<user>:<password>@cluster/mydb
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=you@example.com
-SMTP_PASS=<app-password>
-MAIL_FROM="JurisAI <no-reply@example.com>"
-MAIL_TO=team@example.com
-PORT=5000
+### 1️⃣ Install Dependencies
+
+```bash
+# Install client dependencies
+cd client
+npm install
+
+# Install server dependencies
+cd ../server
+npm install
 ```
 
-3) Start the backend (development)
+### 2️⃣ Configure Environment Variables
 
-The repository includes a tiny dev bootstrap (`server/dev.js`) that starts the Express app locally on `process.env.PORT` or 5000. Run it in PowerShell:
+**Server Configuration** (Required)
 
-```powershell
+Copy the example file and configure:
+```bash
 cd server
-node dev.js
+cp .env.example .env
 ```
 
-4) Start the frontend (Vite)
+Edit `server/.env` with your settings:
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
 
-In a separate PowerShell window:
+# MongoDB Connection
+MONGODB_URI=mongodb://127.0.0.1:27017/jurisai
+# Or use MongoDB Atlas:
+# MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/jurisai
 
-```powershell
+# SMTP Configuration (Gmail example)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password-here
+MAIL_FROM="JurisAI <your-email@gmail.com>"
+
+# Contact Form Admin Email
+MAIL_TO=admin@yourdomain.com
+```
+
+**📧 Getting Gmail App Password:**
+1. Enable 2-factor authentication on your Google account
+2. Visit: https://myaccount.google.com/apppasswords
+3. Generate a new app password for "Mail"
+4. Use this password in `SMTP_PASS`
+
+**Client Configuration** (Optional)
+
+The client doesn't require environment variables for local development. For production:
+```bash
+cd client
+cp .env.example .env
+# Edit .env if needed (usually not required)
+```
+
+### 3️⃣ Start the Application
+
+**Terminal 1 - Backend:**
+```bash
+cd server
+npm start
+# Server will run on http://localhost:5000
+```
+
+**Terminal 2 - Frontend:**
+```bash
 cd client
 npm run dev
+# Client will run on http://localhost:5173
 ```
 
-5) Demo flow to show in an interview
+### 4️⃣ Access the Application
 
-- Open the frontend URL printed by Vite (usually http://localhost:5173).
-- Sign up a new user via `/register`.
-- Log in — if unverified you will be redirected to `/verify` and can request a verification code.
-- Use the contact form to exercise the contact mail flow (sends to `MAIL_TO` and acknowledges the sender).
-- Show the server files `server/utils/mailer.js` and `server/utils/templates/verificationCode.js` to explain transactional email implementation.
+Open your browser to: **http://localhost:5173**
+
+## 🎬 Demo Flow
+
+1. **Sign Up**: Create a new account at `/signup`
+2. **Verify Email**: Check your email for the 6-digit verification code
+3. **Login**: Sign in with your credentials
+4. **JurisBot**: Ask legal questions and get intelligent answers
+5. **Profile**: Customize your avatar and profile information
+6. **Contact**: Send messages through the contact form
+
+## 🔑 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/register` | Create new user account |
+| POST | `/api/login` | Authenticate user |
+| POST | `/api/verification/send` | Send verification code via email |
+| POST | `/api/verification/confirm` | Verify email with code |
+| POST | `/api/send-welcome` | Send welcome email |
+| POST | `/api/contact` | Submit contact form |
+| PATCH | `/api/user` | Update user profile |
+| POST | `/api/chatbot` | Query legal knowledge base |
+
+## 📦 Build for Production
+
+**Frontend:**
+```bash
+cd client
+npm run build
+npm run preview  # Test production build locally
+```
+
+**Backend:**
+```bash
+cd server
+NODE_ENV=production node index.js
+```
+
+## 🔒 Security Notes
+
+- ⚠️ **Passwords are currently stored in plaintext** - Implement bcrypt before production
+- ⚠️ Add rate limiting for API endpoints
+- ⚠️ Implement JWT tokens for authentication
+- ⚠️ Add verification code expiry timestamps
+- ⚠️ Sanitize user inputs to prevent XSS
+- ✅ Environment variables are gitignored
+- ✅ CORS enabled for development
+
+## 📝 Next Steps / TODOs
+
+- [ ] Implement bcrypt for password hashing
+- [ ] Add JWT authentication tokens
+- [ ] Implement verification code expiry
+- [ ] Add rate limiting middleware
+- [ ] Implement password reset flow
+- [ ] Add unit and integration tests
+- [ ] Improve error handling and logging
+- [ ] Add API request validation with Joi/Zod
+- [ ] Implement session management
+- [ ] Add database connection pooling
+
+## 🤝 Contributing
+
+This is a portfolio project, but suggestions are welcome! Feel free to open issues or submit pull requests.
+
+## 📄 License
+
+[Your License Here]
+
+## 👨‍💻 Author
+
+[Your Name]
+
+---
+
+**Built with ❤️ for demonstrating full-stack development skills**
 
 
 Notes for local development
