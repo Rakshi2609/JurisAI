@@ -60,25 +60,35 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Generate a 6-digit verification code
+// NOTE: This legacy endpoint has been replaced by /verification/send and /verification/confirm
+// Keeping it for backwards compatibility but it has confusing logic - use the new endpoints instead
 router.post('/verification', async (req, res) => {
   try {
     const { email, verificationToken } = req.body;
     if (!email) {
       return res.status(400).json({ error: 'Email is required.' });
     }
-    const code = generateVerificationCode();
-    console.log(`Sending verification code ${code} to ${email}`);
-    await User.updateOne({ email }, { verificationToken: code });
-    if (!verificationToken || verificationToken !== code) {
+    
+    // If no token provided, generate and return code (for testing/dev only)
+    if (!verificationToken) {
+      const code = generateVerificationCode();
+      console.log(`Generating verification code ${code} for ${email}`);
+      await User.updateOne({ email }, { verificationToken: code, verified: false });
+      return res.status(200).json({ message: 'Verification code generated', email, code });
+    }
+    
+    // If token provided, verify it
+    const user = await User.findOne({ email });
+    if (!user || !user.verificationToken) {
+      return res.status(400).json({ error: 'No verification code found. Please request a new code.' });
+    }
+    
+    if (String(user.verificationToken) !== String(verificationToken)) {
       return res.status(400).json({ error: 'Invalid verification code.' });
     }
-    if (verificationToken === code) {
-      await User.updateOne({ email }, { verified: true });
-    } else {
-      return res.status(400).json({ error: 'The code is incorrect.' });
-    }
-    return res.status(200).json({ message: 'Verification code generated', email, code });
+    
+    await User.updateOne({ email }, { verified: true, verificationToken: undefined });
+    return res.status(200).json({ message: 'Email verified successfully.' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
